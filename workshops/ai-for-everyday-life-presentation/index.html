@@ -218,6 +218,36 @@
             background: rgba(56, 189, 248, 0.2);
             transform: translateX(5px);
         }
+
+        /* Global subtle glow and lift on hover for interactive panels and options */
+        .glass-panel,
+        .game-option,
+        .space-y-2 > div,
+        .grid button,
+        button.glass-panel,
+        a.glass-panel {
+            transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.18s ease;
+        }
+
+        .glass-panel:hover,
+        .game-option:hover,
+        .space-y-2 > div:hover,
+        .grid button:hover,
+        button.glass-panel:hover,
+        a.glass-panel:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(56,189,248,0.08), 0 0 24px rgba(56,189,248,0.06);
+            border-color: rgba(56,189,248,0.12);
+        }
+
+        /* Keyboard accessibility: show glow when focused */
+        .glass-panel:focus-within,
+        .space-y-2 > div:focus {
+            outline: none;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(56,189,248,0.06), 0 0 18px rgba(56,189,248,0.05);
+            border-color: rgba(56,189,248,0.10);
+        }
         .game-option.correct {
             background: rgba(74, 222, 128, 0.2);
             border-color: rgba(74, 222, 128, 0.5);
