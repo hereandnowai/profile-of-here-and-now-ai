@@ -418,7 +418,7 @@
             <!-- ChatGPT -->
             <div class="glass-panel p-8 text-center flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full flex items-center justify-center mb-6 overflow-hidden bg-white">
-                    <img src="../../../assets/images/chatgpt-logo-on-transparent-background-free-png.webp" alt="ChatGPT Logo" class="w-28 h-28 object-contain">
+                    <img src="../../assets/images/chatgpt-logo-on-transparent-background-free-png.webp" alt="ChatGPT Logo" class="w-28 h-28 object-contain">
                 </div>
                 <h3 class="text-2xl font-bold mb-2">ChatGPT</h3>
                 <p class="text-slate-300 mb-4">Play Store / App Store</p>
@@ -428,7 +428,7 @@
             <!-- NotebookLM -->
             <div class="glass-panel p-8 text-center flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full flex items-center justify-center mb-6 overflow-hidden" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <img src="../../../assets/images/notebooklm-logo.png" alt="NotebookLM Logo" class="w-20 h-20 object-contain">
+                    <img src="../../assets/images/notebooklm-logo.png" alt="NotebookLM Logo" class="w-20 h-20 object-contain">
                 </div>
                 <h3 class="text-2xl font-bold mb-2">NotebookLM</h3>
                 <p class="text-slate-300 mb-4">Access via Web</p>
@@ -440,7 +440,7 @@
 
     <!-- Slide 3b: Quiz - Test Your Knowledge -->
     <div class="slide" id="slide-3b">
-        <div class="text-center mb-8">
+        <div class="text-center mb-8 mt-12 md:mt-16">
             <h2 class="text-4xl font-bold mb-2 accent-text">🎯 Knowledge Check Quiz</h2>
             <p class="text-xl text-slate-400 mb-2">10 Questions Covering All 9 AI Concepts</p>
             <p class="text-sm text-green-400">Prepared by <span class="font-bold">Caramel AI</span> – Sr. AI Engineer, HERE AND NOW AI</p>
@@ -560,6 +560,23 @@
             </div>
         </div>
         
+        <!-- Quiz Score Area -->
+        <div class="max-w-6xl w-full mt-6 text-center" id="quizScoreArea">
+            <div class="glass-panel p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-left">
+                    <div class="text-sm text-slate-400">Your Score</div>
+                    <div class="text-2xl font-bold text-white" id="scoreCounter">0 / 10</div>
+                    <div class="text-xs text-slate-400" id="scorePercent">0%</div>
+                </div>
+
+                <div class="flex-1 text-center">
+                    <button id="showScoreBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mr-3">Show Score</button>
+                    <button id="resetScoreBtn" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded">Reset</button>
+                    <div class="mt-3 text-lg text-green-300 font-semibold" id="scoreMessage"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
@@ -600,7 +617,7 @@
                 <h3 class="text-xl font-bold mb-2">Dictate Mode</h3>
                 <p class="text-sm text-slate-400">Speech-to-Text input.</p>
             </div>
-            <div class="glass-panel p-6 text-center border border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]">
+            <div class="glass-panel p-6 text-center">
                 <i data-lucide="headphones" size="48" class="mx-auto mb-4 text-green-400"></i>
                 <h3 class="text-xl font-bold mb-2">Voice Mode</h3>
                 <p class="text-sm text-slate-400">Real-time conversational AI.</p>
@@ -654,7 +671,7 @@
                             <p class="text-xs text-slate-400">Speak and convert to text</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 bg-green-900/30 p-3 rounded-lg border border-green-500/50">
+                    <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
                         <i data-lucide="phone" class="text-green-400 w-5 h-5"></i>
                         <div>
                             <p class="font-bold text-sm">Voice Mode</p>
@@ -1201,6 +1218,27 @@
         const slideCounter = document.getElementById('slideCounter');
         const totalSlides = slides.length;
 
+        // Restore slide on load: prefer hash (deep link) then sessionStorage
+        (function restoreSlideOnLoad(){
+            try {
+                if (location.hash) {
+                    const id = location.hash.substring(1);
+                    const el = document.getElementById(id);
+                    if (el) {
+                        slides.forEach((s, idx) => { if (s.id === id) currentSlide = idx; });
+                        return;
+                    }
+                }
+                const saved = sessionStorage.getItem('presentation-currentSlide');
+                if (saved !== null) {
+                    const n = parseInt(saved, 10);
+                    if (!isNaN(n) && n >= 0 && n < slides.length) currentSlide = n;
+                }
+            } catch (e) {
+                // ignore storage errors
+            }
+        })();
+
         // Functions
         function updateSlide() {
             slides.forEach((slide, index) => {
@@ -1217,6 +1255,12 @@
             // Update slide counter
             if (slideCounter) {
                 slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            }
+            // Persist current slide so refresh keeps user's place
+            try { sessionStorage.setItem('presentation-currentSlide', String(currentSlide)); } catch(e) {}
+            // Update URL without adding history entry
+            if (slides[currentSlide] && slides[currentSlide].id) {
+                try { history.replaceState(null, '', '#' + slides[currentSlide].id); } catch(e) {}
             }
             // Re-init icons for the new slide in case of dynamic loading (not needed here but good practice)
             lucide.createIcons();
@@ -1259,6 +1303,194 @@
 
         // Init
         updateSlide();
+
+        // Initialize interactive behavior for the central quiz (slide-3b)
+        function escapeHTML(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function initInteractiveQuiz() {
+            const slide = document.getElementById('slide-3b');
+            if (!slide) return;
+
+            const questionPanels = slide.querySelectorAll('.glass-panel.p-6');
+            questionPanels.forEach(panel => {
+                const choicesNodeList = panel.querySelectorAll('.space-y-2 > div');
+                const choices = Array.from(choicesNodeList);
+                if (!choices || choices.length === 0) return;
+
+                // Normalize each choice: replace with a fresh clone to remove previous listeners,
+                // detect if it was marked correct, remove checkmarks, and make interactive.
+                choices.forEach(origChoice => {
+                    // replace node with a clone to ensure no duplicate listeners
+                    const fresh = origChoice.cloneNode(true);
+                    origChoice.parentNode.replaceChild(fresh, origChoice);
+                    let choice = fresh;
+
+                    const rawText = (choice.textContent || '');
+                    const wasMarked = rawText.includes('✓') || /green-900|green-300/.test(choice.className);
+                    choice.dataset.correct = wasMarked ? 'true' : 'false';
+
+                    // Reset answered/ chosen flags for fresh attempt
+                    choice.dataset.answered = 'false';
+                    choice.dataset.chosen = 'false';
+
+                    // Remove any visible checkmarks and inline formatting so the options appear neutral initially
+                    const plainText = rawText.replace(/✓/g, '').replace(/✗/g, '').trim();
+                    choice.dataset.choiceText = plainText;
+                    choice.innerHTML = escapeHTML(plainText);
+
+                    // Normalize classes to an interactive neutral look
+                    choice.classList.remove('bg-green-900/30','border','border-green-500/50','bg-green-900/30');
+                    choice.classList.add('bg-slate-800/50','p-3','rounded','hover:bg-slate-700/50','cursor-pointer','transition');
+                    choice.tabIndex = 0;
+
+                    // Click / keyboard handler
+                    const onAnswer = (e) => {
+                        if (choice.dataset.answered === 'true') return;
+                        const correct = choice.dataset.correct === 'true';
+
+                        // Freeze all choices for this question after one selection
+                        // also clear any previous 'chosen' flags and mark the clicked option
+                        const siblingChoices = Array.from(choice.parentNode.querySelectorAll('div'));
+                        siblingChoices.forEach(c => { c.dataset.answered = 'true'; c.dataset.chosen = 'false'; });
+                        choice.dataset.chosen = 'true';
+
+                        // Update live score immediately if the user selected the correct option
+                        if (correct) {
+                            // Recalculate to avoid double-counting and keep consistent with calculateScore()
+                            liveScore = calculateScore();
+                            updateLiveScoreDisplay();
+                        }
+
+                        const choiceText = choice.dataset.choiceText || choice.textContent || '';
+
+                        if (correct) {
+                            // Chosen correct answer should become bold and show ✓
+                            choice.classList.remove('bg-slate-800/50');
+                            choice.classList.add('bg-green-900/30','border','border-green-500/50');
+                            choice.innerHTML = '<strong>' + escapeHTML(choiceText) + ' ✓</strong>';
+                        } else {
+                            // Mark chosen wrong option with red X (bold X but keep option text normal)
+                            choice.classList.remove('bg-slate-800/50');
+                            choice.classList.add('bg-red-900/30','border','border-red-500/50');
+                            choice.innerHTML = escapeHTML(choiceText) + ' <strong>✗</strong>';
+
+                            // Highlight the correct choice (green) and make it bold regardless of selection
+                            const correctEl = siblingChoices.find(c => c.dataset.correct === 'true');
+                            if (correctEl) {
+                                correctEl.classList.remove('bg-slate-800/50');
+                                correctEl.classList.add('bg-green-900/30','border','border-green-500/50');
+                                const correctText = correctEl.dataset.choiceText || correctEl.textContent || '';
+                                // Make the correct answer bold and show ✓ regardless of which option was chosen
+                                correctEl.innerHTML = '<strong>' + escapeHTML(correctText) + ' ✓</strong>';
+                            }
+                        }
+                    };
+
+                    choice.addEventListener('click', onAnswer);
+                    choice.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') onAnswer(ev); });
+                });
+            });
+        }
+
+        // Run once at init to wire up the quiz interactions
+        initInteractiveQuiz();
+
+        // ========== QUIZ SCORING + ANIMATION ==========
+        // Live score that updates as the user answers
+        let liveScore = 0;
+
+        function updateLiveScoreDisplay() {
+            const counter = document.getElementById('scoreCounter');
+            const percent = document.getElementById('scorePercent');
+            if (counter) counter.textContent = `${liveScore} / 10`;
+            if (percent) percent.textContent = Math.round((liveScore/10)*100) + '%';
+        }
+
+        // Initialize display
+        updateLiveScoreDisplay();
+
+        function calculateScore() {
+            const slide = document.getElementById('slide-3b');
+            if (!slide) return 0;
+            const questionPanels = slide.querySelectorAll('.glass-panel.p-6');
+            let score = 0;
+            questionPanels.forEach(panel => {
+                const choices = panel.querySelectorAll('.space-y-2 > div');
+                // find the chosen option (the one the user clicked)
+                const chosen = Array.from(choices).find(c => c.dataset.chosen === 'true');
+                if (chosen && chosen.dataset.correct === 'true') score += 1;
+            });
+            return score;
+        }
+
+        function pickPraise(score) {
+            const high = ['Awesome!', 'Fantastic!', 'Excellent work!', 'Brilliant!'];
+            const med = ['Great job!', 'Well done!', 'Nice work!'];
+            const low = ['Good effort!', 'Keep practicing!', 'You can do it!'];
+            const poor = ['Nice try!', 'Try again!', 'You got this next time!'];
+
+            if (score >= 9) return high[Math.floor(Math.random()*high.length)];
+            if (score >= 6) return med[Math.floor(Math.random()*med.length)];
+            if (score >= 3) return low[Math.floor(Math.random()*low.length)];
+            return poor[Math.floor(Math.random()*poor.length)];
+        }
+
+        function animateScore(finalScore) {
+            const counter = document.getElementById('scoreCounter');
+            const percent = document.getElementById('scorePercent');
+            const msg = document.getElementById('scoreMessage');
+            const btn = document.getElementById('showScoreBtn');
+            if (!counter || !msg) return;
+
+            btn.disabled = true;
+            let current = 0;
+            counter.textContent = '0 / 10';
+            percent.textContent = '0%';
+
+            const step = Math.max(1, Math.ceil(finalScore / 20));
+            const interval = setInterval(() => {
+                if (current >= finalScore) {
+                    clearInterval(interval);
+                    counter.textContent = `${finalScore} / 10`;
+                    percent.textContent = Math.round((finalScore/10)*100) + '%';
+                    msg.textContent = pickPraise(finalScore) + ` — You scored ${finalScore}/10`;
+                    // small celebration: pulse the message
+                    msg.classList.add('animate-pulse');
+                    setTimeout(()=> msg.classList.remove('animate-pulse'), 1600);
+                    return;
+                }
+                current = Math.min(finalScore, current + step);
+                counter.textContent = `${current} / 10`;
+                percent.textContent = Math.round((current/10)*100) + '%';
+            }, 40);
+        }
+
+        // Attach to button
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'showScoreBtn') {
+                const s = calculateScore();
+                animateScore(s);
+            }
+            if (e.target && e.target.id === 'resetScoreBtn') {
+                // simple reset: reload slide content to allow new attempts
+                // reinitialize the quiz interactions
+                initInteractiveQuiz();
+                // reset live score and display
+                liveScore = 0;
+                updateLiveScoreDisplay();
+                const msg = document.getElementById('scoreMessage');
+                const btn = document.getElementById('showScoreBtn');
+                if (msg) msg.textContent = '';
+                if (btn) btn.disabled = false;
+            }
+        });
 
         // ========== INTERACTIVE CONCEPT MODAL FUNCTIONS ==========
         
