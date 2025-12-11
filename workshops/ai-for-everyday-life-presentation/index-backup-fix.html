@@ -218,87 +218,6 @@
             background: rgba(56, 189, 248, 0.2);
             transform: translateX(5px);
         }
-
-        /* Global subtle glow and lift on hover for interactive panels and options */
-        .glass-panel,
-        .game-option,
-        .space-y-2 > div,
-        .grid button,
-        button.glass-panel,
-        a.glass-panel {
-            transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.18s ease;
-        }
-
-        .glass-panel:hover,
-        .game-option:hover,
-        .space-y-2 > div:hover,
-        .grid button:hover,
-        button.glass-panel:hover,
-        a.glass-panel:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(56,189,248,0.08), 0 0 24px rgba(56,189,248,0.06);
-            border-color: rgba(56,189,248,0.12);
-        }
-
-        /* Keyboard accessibility: show glow when focused */
-        .glass-panel:focus-within,
-        .space-y-2 > div:focus {
-            outline: none;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(56,189,248,0.06), 0 0 18px rgba(56,189,248,0.05);
-            border-color: rgba(56,189,248,0.10);
-        }
-        
-        /* Per-accent colored glow (uses :has to detect child accent markers). Modern browsers support :has; fallback uses generic glow above. */
-        .glass-panel:has(.text-cyan-300):hover,
-        button.glass-panel:has(.text-cyan-300):hover,
-        a.glass-panel:has(.text-cyan-300):hover,
-        .glass-panel:has(.bg-cyan-500):hover {
-            box-shadow: 0 12px 40px rgba(34,211,238,0.14), 0 0 36px rgba(34,211,238,0.08);
-            border-color: rgba(34,211,238,0.18);
-        }
-
-        .glass-panel:has(.text-emerald-300):hover,
-        button.glass-panel:has(.text-emerald-300):hover,
-        .glass-panel:has(.bg-emerald-500):hover {
-            box-shadow: 0 12px 40px rgba(16,185,129,0.14), 0 0 36px rgba(16,185,129,0.08);
-            border-color: rgba(16,185,129,0.18);
-        }
-
-        .glass-panel:has(.text-blue-300):hover,
-        button.glass-panel:has(.text-blue-300):hover,
-        .glass-panel:has(.bg-blue-500):hover {
-            box-shadow: 0 12px 40px rgba(56,189,248,0.14), 0 0 36px rgba(56,189,248,0.08);
-            border-color: rgba(56,189,248,0.18);
-        }
-
-        .glass-panel:has(.text-purple-300):hover,
-        button.glass-panel:has(.text-purple-300):hover,
-        .glass-panel:has(.bg-purple-500):hover {
-            box-shadow: 0 12px 40px rgba(168,85,247,0.12), 0 0 36px rgba(168,85,247,0.06);
-            border-color: rgba(168,85,247,0.16);
-        }
-
-        .glass-panel:has(.text-pink-300):hover,
-        button.glass-panel:has(.text-pink-300):hover,
-        .glass-panel:has(.bg-pink-500):hover {
-            box-shadow: 0 12px 40px rgba(236,72,153,0.12), 0 0 36px rgba(236,72,153,0.06);
-            border-color: rgba(236,72,153,0.16);
-        }
-
-        .glass-panel:has(.text-orange-300):hover,
-        button.glass-panel:has(.text-orange-300):hover,
-        .glass-panel:has(.bg-orange-500):hover {
-            box-shadow: 0 12px 40px rgba(251,146,60,0.12), 0 0 36px rgba(251,146,60,0.06);
-            border-color: rgba(251,146,60,0.16);
-        }
-
-        .glass-panel:has(.text-green-300):hover,
-        button.glass-panel:has(.text-green-300):hover,
-        .glass-panel:has(.bg-green-500):hover {
-            box-shadow: 0 12px 40px rgba(74,222,128,0.12), 0 0 36px rgba(74,222,128,0.06);
-            border-color: rgba(74,222,128,0.16);
-        }
         .game-option.correct {
             background: rgba(74, 222, 128, 0.2);
             border-color: rgba(74, 222, 128, 0.5);
@@ -330,30 +249,6 @@
             0%, 100% { box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
             50% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.8); }
         }
-        /* Home button styles */
-        .home-btn {
-            position: fixed;
-            left: 1rem;
-            bottom: 1rem;
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            background: rgba(2,6,23,0.6);
-            border: 1px solid rgba(56,189,248,0.09);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 80;
-            transition: transform 0.18s ease, box-shadow 0.22s ease, border-color 0.18s ease;
-            backdrop-filter: blur(6px);
-        }
-        .home-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(56,189,248,0.12), 0 0 18px rgba(56,189,248,0.06);
-            border-color: rgba(56,189,248,0.18);
-        }
-        .home-btn:focus { outline: none; box-shadow: 0 8px 24px rgba(56,189,248,0.08); }
     </style>
 </head>
 <body>
@@ -376,10 +271,6 @@
     <button class="nav-btn nav-next" onclick="changeSlide(1)"><i data-lucide="chevron-right"></i></button>
     <div class="progress-bar" id="progressBar"></div>
     <div id="slideCounter" class="slide-counter" aria-hidden="false">1 / 1</div>
-    <!-- Home Button (hidden on first slide) -->
-    <button id="homeBtn" class="home-btn" aria-label="Go to home slide" title="Home (Go to first slide)" onclick="goHome()" onkeydown="if(event.key==='Enter'||event.key===' ') goHome()" style="display:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5L12 4l9 7.5"></path><path d="M5 10.5v7a1 1 0 0 0 1 1h3v-5h6v5h3a1 1 0 0 0 1-1v-7"></path></svg>
-    </button>
 
     <!-- Slide 1: Title Slide -->
     <div class="slide active" id="slide-1">
@@ -399,58 +290,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 2: Expected Outcome -->
+    <!-- Slide 2: Interactive Learning -->
     <div class="slide" id="slide-2">
-        <h2 class="text-5xl font-bold mb-4 accent-text">Expected Outcome</h2>
-        <h3 class="text-2xl text-slate-300 mb-12">Motivation to Attend This Program</h3>
-        
-        <div class="max-w-5xl w-full space-y-6">
-            <div class="glass-panel p-8 border-l-4 border-cyan-500">
-                <div class="flex items-start gap-4">
-                    <div class="text-4xl">🎯</div>
-                    <div>
-                        <h4 class="text-xl font-bold text-cyan-300 mb-2">Master Practical AI Skills</h4>
-                        <p class="text-slate-300">Learn to use ChatGPT, NotebookLM, and cutting-edge AI tools effectively in your daily work and personal projects.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-8 border-l-4 border-blue-500">
-                <div class="flex items-start gap-4">
-                    <div class="text-4xl">💡</div>
-                    <div>
-                        <h4 class="text-xl font-bold text-blue-300 mb-2">Apply Prompt Engineering Techniques</h4>
-                        <p class="text-slate-300">Craft effective prompts using the 5-pillar framework: Role, Task, Context, Format, and Constraints to get superior AI responses.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-8 border-l-4 border-green-500">
-                <div class="flex items-start gap-4">
-                    <div class="text-4xl">🚀</div>
-                    <div>
-                        <h4 class="text-xl font-bold text-green-300 mb-2">Boost Productivity & Innovation</h4>
-                        <p class="text-slate-300">Transform how you work across finance, HR, marketing, sales, and operations with AI-powered automation and insights.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-8 border-l-4 border-purple-500">
-                <div class="flex items-start gap-4">
-                    <div class="text-4xl">🤝</div>
-                    <div>
-                        <h4 class="text-xl font-bold text-purple-300 mb-2">Hands-On Experience</h4>
-                        <p class="text-slate-300">Zero theory, 100% practical. Work on real-world scenarios and leave with actionable skills you can apply immediately.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="slide-footer">www.hereandnowai.com</div>
-    </div>
-
-    <!-- Slide 3: Interactive Learning -->
-    <div class="slide" id="slide-3">
         <h2 class="text-4xl font-bold mb-6 accent-text">Understanding the Basics</h2>
         <p class="text-slate-400 mb-8 text-center">🎮 Click on each concept to learn and test your knowledge!</p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl w-full px-4">
@@ -517,8 +358,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 4: AI Agents & MCP -->
-    <div class="slide" id="slide-4">
+    <!-- NEW Slide 2b: AI Agents & MCP -->
+    <div class="slide" id="slide-2b">
         <h2 class="text-4xl font-bold mb-6 accent-text">AI Agents & Model Context Protocol</h2>
         <p class="text-slate-400 mb-8 text-center">🔗 Understanding Autonomous AI Systems</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4">
@@ -568,8 +409,8 @@
         </div>
     </div>
 
-    <!-- Slide 5: Setup -->
-    <div class="slide" id="slide-5">
+    <!-- Slide 3: Setup -->
+    <div class="slide" id="slide-3">
         <h2 class="text-4xl font-bold mb-2">Let's Get Hands-On</h2>
         <p class="text-xl text-slate-400 mb-12">Download & Login</p>
         
@@ -577,7 +418,7 @@
             <!-- ChatGPT -->
             <div class="glass-panel p-8 text-center flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full flex items-center justify-center mb-6 overflow-hidden bg-white">
-                    <img src="../../assets/images/chatgpt-logo-on-transparent-background-free-png.webp" alt="ChatGPT Logo" class="w-28 h-28 object-contain">
+                    <img src="../../../assets/images/chatgpt-logo-on-transparent-background-free-png.webp" alt="ChatGPT Logo" class="w-28 h-28 object-contain">
                 </div>
                 <h3 class="text-2xl font-bold mb-2">ChatGPT</h3>
                 <p class="text-slate-300 mb-4">Play Store / App Store</p>
@@ -587,7 +428,7 @@
             <!-- NotebookLM -->
             <div class="glass-panel p-8 text-center flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full flex items-center justify-center mb-6 overflow-hidden" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <img src="../../assets/images/notebooklm-logo.png" alt="NotebookLM Logo" class="w-20 h-20 object-contain">
+                    <img src="../../../assets/images/notebooklm-logo.png" alt="NotebookLM Logo" class="w-20 h-20 object-contain">
                 </div>
                 <h3 class="text-2xl font-bold mb-2">NotebookLM</h3>
                 <p class="text-slate-300 mb-4">Access via Web</p>
@@ -597,9 +438,9 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 6: Quiz - Test Your Knowledge -->
-    <div class="slide" id="slide-6">
-        <div class="text-center mb-8 mt-12 md:mt-16">
+    <!-- Slide 3b: Quiz - Test Your Knowledge -->
+    <div class="slide" id="slide-3b">
+        <div class="text-center mb-8">
             <h2 class="text-4xl font-bold mb-2 accent-text">🎯 Knowledge Check Quiz</h2>
             <p class="text-xl text-slate-400 mb-2">10 Questions Covering All 9 AI Concepts</p>
             <p class="text-sm text-green-400">Prepared by <span class="font-bold">Caramel AI</span> – Sr. AI Engineer, HERE AND NOW AI</p>
@@ -719,28 +560,11 @@
             </div>
         </div>
         
-        <!-- Quiz Score Area -->
-        <div class="max-w-6xl w-full mt-6 text-center" id="quizScoreArea">
-            <div class="glass-panel p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="text-left">
-                    <div class="text-sm text-slate-400">Your Score</div>
-                    <div class="text-2xl font-bold text-white" id="scoreCounter">0 / 10</div>
-                    <div class="text-xs text-slate-400" id="scorePercent">0%</div>
-                </div>
-
-                <div class="flex-1 text-center">
-                    <button id="showScoreBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mr-3">Show Score</button>
-                    <button id="resetScoreBtn" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded">Reset</button>
-                    <div class="mt-3 text-lg text-green-300 font-semibold" id="scoreMessage"></div>
-                </div>
-            </div>
-        </div>
-
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 7: Interaction Modes -->
-    <div class="slide" id="slide-7">
+    <!-- Slide 4: Interaction Modes -->
+    <div class="slide" id="slide-4">
         <h2 class="text-4xl font-bold mb-8 accent-text">AI Tools We'll Use</h2>
         
         <div class="flex justify-center gap-12 mb-12 max-w-5xl w-full">
@@ -776,7 +600,7 @@
                 <h3 class="text-xl font-bold mb-2">Dictate Mode</h3>
                 <p class="text-sm text-slate-400">Speech-to-Text input.</p>
             </div>
-            <div class="glass-panel p-6 text-center">
+            <div class="glass-panel p-6 text-center border border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]">
                 <i data-lucide="headphones" size="48" class="mx-auto mb-4 text-green-400"></i>
                 <h3 class="text-xl font-bold mb-2">Voice Mode</h3>
                 <p class="text-sm text-slate-400">Real-time conversational AI.</p>
@@ -785,8 +609,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 8: ChatGPT Setup & Personalization -->
-    <div class="slide" id="slide-8">
+    <!-- Slide 4b: ChatGPT Setup & Personalization -->
+    <div class="slide" id="slide-4b">
         <h2 class="text-4xl font-bold mb-6 accent-text">Before You Start with ChatGPT</h2>
         
         <div class="grid grid-cols-2 gap-6 max-w-6xl w-full">
@@ -830,7 +654,7 @@
                             <p class="text-xs text-slate-400">Speak and convert to text</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 bg-slate-800/50 p-3 rounded-lg">
+                    <div class="flex items-center gap-3 bg-green-900/30 p-3 rounded-lg border border-green-500/50">
                         <i data-lucide="phone" class="text-green-400 w-5 h-5"></i>
                         <div>
                             <p class="font-bold text-sm">Voice Mode</p>
@@ -844,8 +668,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 9: Basic Prompting Examples -->
-    <div class="slide" id="slide-9">
+    <!-- Slide 4c: Basic Prompting Examples -->
+    <div class="slide" id="slide-4c">
         <h2 class="text-4xl font-bold mb-6 accent-text">Getting Started with Basic Prompting</h2>
         <p class="text-slate-400 mb-8 text-lg">No prompt engineering needed - just ask naturally!</p>
         
@@ -896,8 +720,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 10: Prompt Engineering -->
-    <div class="slide" id="slide-10">
+    <!-- Slide 4d: Prompt Engineering -->
+    <div class="slide" id="slide-4d">
         <h2 class="text-4xl font-bold mb-4 accent-text">Prompt Engineering</h2>
         <p class="text-xl text-slate-300 mb-8">The art of crafting effective prompts to get better AI responses</p>
         
@@ -968,8 +792,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 11: NotebookLM Introduction -->
-    <div class="slide" id="slide-11">
+    <!-- Slide 4e: NotebookLM Introduction -->
+    <div class="slide" id="slide-4e">
         <h2 class="text-4xl font-bold mb-6 accent-text">NotebookLM: Your AI Research Assistant</h2>
         
         <div class="grid grid-cols-2 gap-6 max-w-6xl w-full">
@@ -1063,8 +887,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 12: Demo 1 -->
-    <div class="slide" id="slide-12">
+    <!-- Slide 5: Demo 1 -->
+    <div class="slide" id="slide-5">
         <div class="absolute top-10 right-10 text-slate-600 font-bold text-6xl opacity-20">01</div>
         <h2 class="text-4xl font-bold mb-8 text-blue-400">Scenario 1: Chat Mode</h2>
         <h3 class="text-2xl mb-12">Task: Fact Retrieval</h3>
@@ -1082,8 +906,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 13: Demo 2 -->
-    <div class="slide" id="slide-13">
+    <!-- Slide 6: Demo 2 -->
+    <div class="slide" id="slide-6">
         <div class="absolute top-10 right-10 text-slate-600 font-bold text-6xl opacity-20">02</div>
         <h2 class="text-4xl font-bold mb-8 text-purple-400">Scenario 2: Dictate Mode</h2>
         <h3 class="text-2xl mb-12">Task: Follow-up Context</h3>
@@ -1110,8 +934,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 14: Demo 3 -->
-    <div class="slide" id="slide-14">
+    <!-- Slide 7: Demo 3 -->
+    <div class="slide" id="slide-7">
         <div class="absolute top-10 right-10 text-slate-600 font-bold text-6xl opacity-20">03</div>
         <h2 class="text-4xl font-bold mb-8 text-green-400">Scenario 3: Voice Mode</h2>
         <h3 class="text-2xl mb-8">Task: Hands-Free Productivity</h3>
@@ -1130,8 +954,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 15: The Art of Prompting -->
-    <div class="slide" id="slide-15">
+    <!-- Slide 8: Prompt Engineering -->
+    <div class="slide" id="slide-8">
         <h2 class="text-4xl font-bold mb-8 mt-12 accent-text">The Art of Prompting</h2>
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full max-w-6xl">
             <!-- Role -->
@@ -1165,72 +989,11 @@
                 <p class="text-sm bg-slate-800 p-2 rounded mt-auto">"Under 100 words"</p>
             </div>
         </div>
-        
-        <!-- Prompt Example Categories -->
-        <div class="mt-10 flex flex-wrap justify-center gap-4 max-w-4xl w-full">
-            <button class="glass-panel px-6 py-3 font-semibold text-sm border-l-4 border-blue-500 hover:scale-105 transition-all cursor-pointer">
-                <span class="text-blue-300">💰 Finance</span>
-            </button>
-            <button class="glass-panel px-6 py-3 font-semibold text-sm border-l-4 border-green-500 hover:scale-105 transition-all cursor-pointer">
-                <span class="text-green-300">👥 HR</span>
-            </button>
-            <button class="glass-panel px-6 py-3 font-semibold text-sm border-l-4 border-purple-500 hover:scale-105 transition-all cursor-pointer">
-                <span class="text-purple-300">📢 Marketing</span>
-            </button>
-            <button class="glass-panel px-6 py-3 font-semibold text-sm border-l-4 border-orange-500 hover:scale-105 transition-all cursor-pointer">
-                <span class="text-orange-300">🎯 Sales</span>
-            </button>
-            <button class="glass-panel px-6 py-3 font-semibold text-sm border-l-4 border-cyan-500 hover:scale-105 transition-all cursor-pointer">
-                <span class="text-cyan-300">📋 SOP</span>
-            </button>
-        </div>
-        
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 16: Group Activity #1 - Prompt Engineering Practice -->
-    <div class="slide" id="slide-16">
-        <h2 class="text-5xl font-bold mb-4 accent-text">Group Activity #1</h2>
-        <h3 class="text-2xl text-slate-300 mb-8">Apply Prompt Engineering Techniques</h3>
-        
-        <div class="glass-panel p-10 max-w-4xl w-full">
-            <p class="text-lg text-slate-300 mb-8 text-center">Use the 5-pillar framework you just learned:<br>
-            <span class="font-bold text-cyan-300">Role • Task • Context • Format • Constraints</span></p>
-            
-            <!-- Timer Display -->
-            <div class="text-center mb-8">
-                <div id="timerDisplay" class="text-8xl font-bold text-blue-400 mb-4" style="font-family: 'Courier New', monospace;">10:00</div>
-                <div class="text-slate-400 text-sm">Minutes Remaining</div>
-            </div>
-            
-            <!-- Timer Controls -->
-            <div class="flex justify-center gap-4 mb-6">
-                <button onclick="startTimer()" class="glass-panel px-8 py-3 font-bold text-green-400 border border-green-500/50 hover:bg-green-900/20 transition-all">
-                    ▶️ Start
-                </button>
-                <button onclick="pauseTimer()" class="glass-panel px-8 py-3 font-bold text-yellow-400 border border-yellow-500/50 hover:bg-yellow-900/20 transition-all">
-                    ⏸️ Pause
-                </button>
-                <button onclick="resetTimer()" class="glass-panel px-8 py-3 font-bold text-red-400 border border-red-500/50 hover:bg-red-900/20 transition-all">
-                    🔄 Reset
-                </button>
-            </div>
-            
-            <!-- Time Presets -->
-            <div class="flex justify-center gap-3 flex-wrap">
-                <button onclick="setTimerMinutes(5)" class="bg-slate-700 px-4 py-2 rounded text-sm hover:bg-slate-600 transition">5 min</button>
-                <button onclick="setTimerMinutes(10)" class="bg-slate-700 px-4 py-2 rounded text-sm hover:bg-slate-600 transition">10 min</button>
-                <button onclick="setTimerMinutes(15)" class="bg-slate-700 px-4 py-2 rounded text-sm hover:bg-slate-600 transition">15 min</button>
-                <button onclick="setTimerMinutes(20)" class="bg-slate-700 px-4 py-2 rounded text-sm hover:bg-slate-600 transition">20 min</button>
-                <button onclick="setTimerMinutes(30)" class="bg-slate-700 px-4 py-2 rounded text-sm hover:bg-slate-600 transition">30 min</button>
-            </div>
-        </div>
-        
-        <div class="slide-footer">www.hereandnowai.com</div>
-    </div>
-
-    <!-- Slide 17: Use Cases -->
-    <div class="slide" id="slide-17">
+    <!-- Slide 9: Use Cases -->
+    <div class="slide" id="slide-9">
         <h2 class="text-4xl font-bold mb-10">High-Impact Use Cases</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
             <div class="glass-panel p-6 flex items-start gap-4">
@@ -1272,8 +1035,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 18: Generative Visuals -->
-    <div class="slide" id="slide-18">
+    <!-- Slide 10: Generative Visuals -->
+    <div class="slide" id="slide-10">
         <h2 class="text-4xl font-bold mb-10 accent-text">Generative Visuals</h2>
         
         <div class="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl">
@@ -1305,8 +1068,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 19: NotebookLM -->
-    <div class="slide" id="slide-19">
+    <!-- Slide 11: NotebookLM -->
+    <div class="slide" id="slide-11">
         <h2 class="text-4xl font-bold mb-2">Your AI Researcher</h2>
         <h3 class="text-2xl text-blue-400 mb-10">Google NotebookLM</h3>
         
@@ -1331,8 +1094,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 20: Cutting Edge -->
-    <div class="slide" id="slide-20">
+    <!-- Slide 12: Cutting Edge -->
+    <div class="slide" id="slide-12">
         <h2 class="text-4xl font-bold mb-8 accent-text">The Cutting Edge</h2>
         
         <div class="grid grid-cols-2 gap-6 max-w-5xl w-full">
@@ -1361,8 +1124,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 21: Q&A -->
-    <div class="slide" id="slide-21">
+    <!-- Slide 13: Q&A -->
+    <div class="slide" id="slide-13">
         <div class="w-48 h-48 bg-blue-500 rounded-full flex items-center justify-center mb-8 shadow-[0_0_60px_rgba(59,130,246,0.5)] animate-bounce">
             <span class="text-9xl font-bold text-white">?</span>
         </div>
@@ -1372,8 +1135,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 22: Conclusion -->
-    <div class="slide" id="slide-22">
+    <!-- Slide 14: Conclusion -->
+    <div class="slide" id="slide-14">
         <h2 class="text-6xl font-bold mb-8 accent-text">Thank You</h2>
         <h3 class="text-2xl italic text-slate-300 mb-12">"Innovate to Lead, Code to Change"</h3>
         
@@ -1394,8 +1157,8 @@
         <div class="slide-footer">www.hereandnowai.com</div>
     </div>
 
-    <!-- Slide 23: Resources -->
-    <div class="slide" id="slide-23">
+    <!-- Slide 15: Resources -->
+    <div class="slide" id="slide-15">
         <h2 class="text-4xl font-bold mb-10">Continue Your Journey</h2>
         
         <div class="flex flex-col gap-6 max-w-2xl w-full">
@@ -1438,27 +1201,6 @@
         const slideCounter = document.getElementById('slideCounter');
         const totalSlides = slides.length;
 
-        // Restore slide on load: prefer hash (deep link) then sessionStorage
-        (function restoreSlideOnLoad(){
-            try {
-                if (location.hash) {
-                    const id = location.hash.substring(1);
-                    const el = document.getElementById(id);
-                    if (el) {
-                        slides.forEach((s, idx) => { if (s.id === id) currentSlide = idx; });
-                        return;
-                    }
-                }
-                const saved = sessionStorage.getItem('presentation-currentSlide');
-                if (saved !== null) {
-                    const n = parseInt(saved, 10);
-                    if (!isNaN(n) && n >= 0 && n < slides.length) currentSlide = n;
-                }
-            } catch (e) {
-                // ignore storage errors
-            }
-        })();
-
         // Functions
         function updateSlide() {
             slides.forEach((slide, index) => {
@@ -1475,22 +1217,6 @@
             // Update slide counter
             if (slideCounter) {
                 slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
-            }
-            // Show/hide Home button (hide on first slide)
-            const homeBtn = document.getElementById('homeBtn');
-            if (homeBtn) {
-                homeBtn.style.display = (currentSlide === 0) ? 'none' : 'flex';
-            }
-            // Show/hide Home button (hide on first slide)
-            const homeBtn = document.getElementById('homeBtn');
-            if (homeBtn) {
-                homeBtn.style.display = (currentSlide === 0) ? 'none' : 'flex';
-            }
-            // Persist current slide so refresh keeps user's place
-            try { sessionStorage.setItem('presentation-currentSlide', String(currentSlide)); } catch(e) {}
-            // Update URL without adding history entry
-            if (slides[currentSlide] && slides[currentSlide].id) {
-                try { history.replaceState(null, '', '#' + slides[currentSlide].id); } catch(e) {}
             }
             // Re-init icons for the new slide in case of dynamic loading (not needed here but good practice)
             lucide.createIcons();
@@ -1533,253 +1259,6 @@
 
         // Init
         updateSlide();
-        
-        // ========== HOME BUTTON ==========
-        function goHome() {
-            currentSlide = 0;
-            updateSlide();
-        }
-        
-        // ========== TIMER FUNCTIONS (Group Activity) ==========
-        let timerInterval = null;
-        let timerSeconds = 600; // default 10 minutes
-        
-        function setTimerMinutes(mins) {
-            timerSeconds = mins * 60;
-            updateTimerDisplay();
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-        }
-        
-        function updateTimerDisplay() {
-            const display = document.getElementById('timerDisplay');
-            if (!display) return;
-            const mins = Math.floor(timerSeconds / 60);
-            const secs = timerSeconds % 60;
-            display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            // Color code: green > 5min, yellow > 1min, red <= 1min
-            if (timerSeconds > 300) display.style.color = '#4ade80';
-            else if (timerSeconds > 60) display.style.color = '#facc15';
-            else display.style.color = '#f87171';
-        }
-        
-        function startTimer() {
-            if (timerInterval) return; // already running
-            timerInterval = setInterval(() => {
-                if (timerSeconds > 0) {
-                    timerSeconds--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    // Optional: play a sound or show alert
-                    alert('⏰ Time\'s up!');
-                }
-            }, 1000);
-        }
-        
-        function pauseTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-        }
-        
-        function resetTimer() {
-            pauseTimer();
-            timerSeconds = 600; // reset to default 10 min
-            updateTimerDisplay();
-        }
-
-        // Initialize interactive behavior for the central quiz (slide-6)
-        function escapeHTML(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
-        function initInteractiveQuiz() {
-            const slide = document.getElementById('slide-6');
-            if (!slide) return;
-
-            const questionPanels = slide.querySelectorAll('.glass-panel.p-6');
-            questionPanels.forEach(panel => {
-                const choicesNodeList = panel.querySelectorAll('.space-y-2 > div');
-                const choices = Array.from(choicesNodeList);
-                if (!choices || choices.length === 0) return;
-
-                // Normalize each choice: replace with a fresh clone to remove previous listeners,
-                // detect if it was marked correct, remove checkmarks, and make interactive.
-                choices.forEach(origChoice => {
-                    // replace node with a clone to ensure no duplicate listeners
-                    const fresh = origChoice.cloneNode(true);
-                    origChoice.parentNode.replaceChild(fresh, origChoice);
-                    let choice = fresh;
-
-                    const rawText = (choice.textContent || '');
-                    const wasMarked = rawText.includes('✓') || /green-900|green-300/.test(choice.className);
-                    choice.dataset.correct = wasMarked ? 'true' : 'false';
-
-                    // Reset answered/ chosen flags for fresh attempt
-                    choice.dataset.answered = 'false';
-                    choice.dataset.chosen = 'false';
-
-                    // Remove any visible checkmarks and inline formatting so the options appear neutral initially
-                    const plainText = rawText.replace(/✓/g, '').replace(/✗/g, '').trim();
-                    choice.dataset.choiceText = plainText;
-                    choice.innerHTML = escapeHTML(plainText);
-
-                    // Normalize classes to an interactive neutral look
-                    choice.classList.remove('bg-green-900/30','border','border-green-500/50','bg-green-900/30');
-                    choice.classList.add('bg-slate-800/50','p-3','rounded','hover:bg-slate-700/50','cursor-pointer','transition');
-                    choice.tabIndex = 0;
-
-                    // Click / keyboard handler
-                    const onAnswer = (e) => {
-                        if (choice.dataset.answered === 'true') return;
-                        const correct = choice.dataset.correct === 'true';
-
-                        // Freeze all choices for this question after one selection
-                        // also clear any previous 'chosen' flags and mark the clicked option
-                        const siblingChoices = Array.from(choice.parentNode.querySelectorAll('div'));
-                        siblingChoices.forEach(c => { c.dataset.answered = 'true'; c.dataset.chosen = 'false'; });
-                        choice.dataset.chosen = 'true';
-
-                        // Update live score immediately if the user selected the correct option
-                        if (correct) {
-                            // Recalculate to avoid double-counting and keep consistent with calculateScore()
-                            liveScore = calculateScore();
-                            updateLiveScoreDisplay();
-                        }
-
-                        const choiceText = choice.dataset.choiceText || choice.textContent || '';
-
-                        if (correct) {
-                            // Chosen correct answer should become bold and show ✓
-                            choice.classList.remove('bg-slate-800/50');
-                            choice.classList.add('bg-green-900/30','border','border-green-500/50');
-                            choice.innerHTML = '<strong>' + escapeHTML(choiceText) + ' ✓</strong>';
-                        } else {
-                            // Mark chosen wrong option with red X (bold X but keep option text normal)
-                            choice.classList.remove('bg-slate-800/50');
-                            choice.classList.add('bg-red-900/30','border','border-red-500/50');
-                            choice.innerHTML = escapeHTML(choiceText) + ' <strong>✗</strong>';
-
-                            // Highlight the correct choice (green) and make it bold regardless of selection
-                            const correctEl = siblingChoices.find(c => c.dataset.correct === 'true');
-                            if (correctEl) {
-                                correctEl.classList.remove('bg-slate-800/50');
-                                correctEl.classList.add('bg-green-900/30','border','border-green-500/50');
-                                const correctText = correctEl.dataset.choiceText || correctEl.textContent || '';
-                                // Make the correct answer bold and show ✓ regardless of which option was chosen
-                                correctEl.innerHTML = '<strong>' + escapeHTML(correctText) + ' ✓</strong>';
-                            }
-                        }
-                    };
-
-                    choice.addEventListener('click', onAnswer);
-                    choice.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') onAnswer(ev); });
-                });
-            });
-        }
-
-        // Run once at init to wire up the quiz interactions
-        initInteractiveQuiz();
-
-        // ========== QUIZ SCORING + ANIMATION ==========
-        // Live score that updates as the user answers
-        let liveScore = 0;
-
-        function updateLiveScoreDisplay() {
-            const counter = document.getElementById('scoreCounter');
-            const percent = document.getElementById('scorePercent');
-            if (counter) counter.textContent = `${liveScore} / 10`;
-            if (percent) percent.textContent = Math.round((liveScore/10)*100) + '%';
-        }
-
-        // Initialize display
-        updateLiveScoreDisplay();
-
-        function calculateScore() {
-            const slide = document.getElementById('slide-6');
-            if (!slide) return 0;
-            const questionPanels = slide.querySelectorAll('.glass-panel.p-6');
-            let score = 0;
-            questionPanels.forEach(panel => {
-                const choices = panel.querySelectorAll('.space-y-2 > div');
-                // find the chosen option (the one the user clicked)
-                const chosen = Array.from(choices).find(c => c.dataset.chosen === 'true');
-                if (chosen && chosen.dataset.correct === 'true') score += 1;
-            });
-            return score;
-        }
-
-        function pickPraise(score) {
-            const high = ['Awesome!', 'Fantastic!', 'Excellent work!', 'Brilliant!'];
-            const med = ['Great job!', 'Well done!', 'Nice work!'];
-            const low = ['Good effort!', 'Keep practicing!', 'You can do it!'];
-            const poor = ['Nice try!', 'Try again!', 'You got this next time!'];
-
-            if (score >= 9) return high[Math.floor(Math.random()*high.length)];
-            if (score >= 6) return med[Math.floor(Math.random()*med.length)];
-            if (score >= 3) return low[Math.floor(Math.random()*low.length)];
-            return poor[Math.floor(Math.random()*poor.length)];
-        }
-
-        function animateScore(finalScore) {
-            const counter = document.getElementById('scoreCounter');
-            const percent = document.getElementById('scorePercent');
-            const msg = document.getElementById('scoreMessage');
-            const btn = document.getElementById('showScoreBtn');
-            if (!counter || !msg) return;
-
-            btn.disabled = true;
-            let current = 0;
-            counter.textContent = '0 / 10';
-            percent.textContent = '0%';
-
-            const step = Math.max(1, Math.ceil(finalScore / 20));
-            const interval = setInterval(() => {
-                if (current >= finalScore) {
-                    clearInterval(interval);
-                    counter.textContent = `${finalScore} / 10`;
-                    percent.textContent = Math.round((finalScore/10)*100) + '%';
-                    msg.textContent = pickPraise(finalScore) + ` — You scored ${finalScore}/10`;
-                    // small celebration: pulse the message
-                    msg.classList.add('animate-pulse');
-                    setTimeout(()=> msg.classList.remove('animate-pulse'), 1600);
-                    return;
-                }
-                current = Math.min(finalScore, current + step);
-                counter.textContent = `${current} / 10`;
-                percent.textContent = Math.round((current/10)*100) + '%';
-            }, 40);
-        }
-
-        // Attach to button
-        document.addEventListener('click', (e) => {
-            if (e.target && e.target.id === 'showScoreBtn') {
-                const s = calculateScore();
-                animateScore(s);
-            }
-            if (e.target && e.target.id === 'resetScoreBtn') {
-                // simple reset: reload slide content to allow new attempts
-                // reinitialize the quiz interactions
-                initInteractiveQuiz();
-                // reset live score and display
-                liveScore = 0;
-                updateLiveScoreDisplay();
-                const msg = document.getElementById('scoreMessage');
-                const btn = document.getElementById('showScoreBtn');
-                if (msg) msg.textContent = '';
-                if (btn) btn.disabled = false;
-            }
-        });
 
         // ========== INTERACTIVE CONCEPT MODAL FUNCTIONS ==========
         
@@ -1844,130 +1323,4 @@
                         </p>
                     </div>
 
-                    `,
-                
-                'ai': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">🤖</div>
-                        <h2 class="text-4xl font-bold text-blue-400 mb-2">Artificial Intelligence</h2>
-                        <p class="text-slate-300 text-xl">Machines with the capability to predict and decide</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-blue-900/20 border-2 border-blue-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-blue-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            <span class="text-blue-300 font-bold">Artificial Intelligence</span> is giving machines the 
-                            <span class="text-blue-300 font-bold">same capability of predicting the future or deciding future actions</span> 
-                            that humans naturally possess. We transfer this cognitive ability to machines.
-                        </p>
-                    </div>
-                `,
-                
-                'ml': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">📊</div>
-                        <h2 class="text-4xl font-bold text-purple-400 mb-2">Machine Learning</h2>
-                        <p class="text-slate-300 text-xl">Decision-making from data, not programming</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-purple-900/20 border-2 border-purple-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-purple-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            <span class="text-purple-300 font-bold">Machine Learning</span> is the 
-                            <span class="text-purple-300 font-bold">decision-making ability from data, not by programming</span>. 
-                            Instead of writing explicit rules, machines learn patterns from examples and make decisions based on what they've learned.
-                        </p>
-                    </div>
-                `,
-                
-                'dl': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">🧠</div>
-                        <h2 class="text-4xl font-bold text-pink-400 mb-2">Deep Learning</h2>
-                        <p class="text-slate-300 text-xl">Neural networks processing raw, unprocessed data</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-pink-900/20 border-2 border-pink-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-pink-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            <span class="text-pink-300 font-bold">Deep Learning</span> uses 
-                            <span class="text-pink-300 font-bold">neural networks to process raw pieces of data—unprocessed data—to make decisions</span>. 
-                            It can work with images, audio, video, and text in their natural form without manual feature extraction.
-                        </p>
-                    </div>
-                `,
-                
-                'genai': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">✨</div>
-                        <h2 class="text-4xl font-bold text-orange-400 mb-2">Generative AI</h2>
-                        <p class="text-slate-300 text-xl">Creating new content with natural language</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-orange-900/20 border-2 border-orange-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-orange-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            <span class="text-orange-300 font-bold">Generative AI</span> has the 
-                            <span class="text-orange-300 font-bold">ability to generate new text, images, audio, and video with natural language inputs instead of coding</span>. 
-                            You can describe what you want in plain English, and it creates it for you.
-                        </p>
-                    </div>
-                `,
-                
-                'agent': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">⚙️</div>
-                        <h2 class="text-4xl font-bold text-slate-300 mb-2">Agent (Simple Agent)</h2>
-                        <p class="text-slate-300 text-xl">A program that performs tasks following fixed rules</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-slate-800/40 border-2 border-slate-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-slate-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            A <span class="text-slate-300 font-bold">simple Agent</span> is a software program that performs tasks 
-                            <span class="text-slate-300 font-bold">following pre-defined rules and instructions</span>. 
-                            It can automate tasks but doesn't learn or adapt. It follows the exact logic programmed into it.
-                        </p>
-                    </div>
-                `,
-                
-                'aiagent': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">🤖🔧</div>
-                        <h2 class="text-4xl font-bold text-green-400 mb-2">AI Agent</h2>
-                        <p class="text-slate-300 text-xl">Autonomous AI that learns, decides, and uses tools</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-green-900/20 border-2 border-green-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-green-300">📖 Definition</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            An <span class="text-green-300 font-bold">AI Agent</span> is an 
-                            <span class="text-green-300 font-bold">autonomous system powered by AI that can learn, reason, make decisions, and use various tools</span> 
-                            to accomplish complex tasks. Unlike simple agents, AI Agents can adapt to new situations, understand context, and improve over time.
-                        </p>
-                    </div>
-                `,
-                
-                'mcp': `
-                    <div class="concept-header">
-                        <div class="text-6xl mb-4">🔗</div>
-                        <h2 class="text-4xl font-bold text-violet-400 mb-2">Model Context Protocol (MCP)</h2>
-                        <p class="text-slate-300 text-xl">Standardizing AI-to-tool communication</p>
-                    </div>
-
-                    <div class="glass-panel p-8 mt-6 mb-6 bg-violet-900/20 border-2 border-violet-500/30">
-                        <h3 class="text-2xl font-bold mb-4 text-violet-300">📖 What is MCP?</h3>
-                        <p class="text-lg text-slate-200 leading-relaxed">
-                            <span class="text-violet-300 font-bold">Model Context Protocol (MCP)</span> is a 
-                            <span class="text-violet-300 font-bold">standardized way for AI models to communicate with external tools, data sources, and systems</span>. 
-                            Think of it as a universal language that allows AI Agents to connect with any service or database.
-                        </p>
-                    </div>
-                `
-            };
-            
-            return contents[concept] || '<p class="text-slate-300">Content not found</p>';
-        }
-    </script>
-</body>
-</html>
+                    
