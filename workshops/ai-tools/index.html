@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Gallery - HERE AND NOW AI</title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-yellow: #FFDF00;
+            --brand-teal: #004040;
+            --bg-dark: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 223, 0, 0.2);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-link {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 223, 0, 0.3);
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 223, 0, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255, 223, 0, 0.05) 0%, transparent 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--brand-yellow), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Filters */
+        .filters-section {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-container {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255, 223, 0, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-yellow);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 223, 0, 0.3);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--brand-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 223, 0, 0.1);
+        }
+
+        select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--brand-yellow);
+            pointer-events: none;
+        }
+
+        .reset-btn {
+            padding: 0.75rem 2rem;
+            background: transparent;
+            border: 2px solid var(--brand-teal);
+            color: var(--brand-teal);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .reset-btn:hover {
+            background: var(--brand-teal);
+            color: #fff;
+        }
+
+        /* Tools Grid */
+        .tools-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tools-count {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Tool Card */
+        .tool-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255, 223, 0, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-yellow), var(--brand-teal));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--brand-yellow);
+            box-shadow: 0 20px 40px rgba(255, 223, 0, 0.2);
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #000;
+            flex-shrink: 0;
+        }
+
+        .tool-info {
+            flex: 1;
+        }
+
+        .tool-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-pricing {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .pricing-free {
+            background: rgba(38, 222, 129, 0.2);
+            color: #26de81;
+            border: 1px solid rgba(38, 222, 129, 0.4);
+        }
+
+        .pricing-freemium {
+            background: rgba(255, 223, 0, 0.2);
+            color: var(--brand-yellow);
+            border: 1px solid rgba(255, 223, 0, 0.4);
+        }
+
+        .pricing-paid {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.4);
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            flex: 1;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.75rem;
+            background: rgba(0, 64, 64, 0.3);
+            border: 1px solid var(--brand-teal);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--brand-teal);
+        }
+
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+
+        .tool-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(255, 223, 0, 0.4);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 223, 0, 0.2);
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Hidden class for filtering */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">HERE AND NOW AI</div>
+            <a href="../../index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>AI Tools Gallery</h1>
+        <p>Discover and explore the best AI-powered tools for educators, professionals, and researchers. Filter by profession, pricing, and more.</p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" data-target="19">0</div>
+                <div class="stat-label">AI Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" data-target="8">0</div>
+                <div class="stat-label">Professions</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-label">Free Tools</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <div class="filter-group">
+                <label class="filter-label" for="profession">Profession</label>
+                <select id="profession">
+                    <option value="all">All Professions</option>
+                    <option value="teachers">Teachers</option>
+                    <option value="hr">HR Professionals</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="sales">Sales</option>
+                    <option value="customer-service">Customer Service</option>
+                    <option value="researchers">Researchers</option>
+                    <option value="developers">Developers</option>
+                    <option value="ceos">CEOs & Leaders</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label" for="pricing">Pricing Model</label>
+                <select id="pricing">
+                    <option value="all">All Pricing</option>
+                    <option value="free">Completely Free</option>
+                    <option value="freemium">Free Tier Available</option>
+                    <option value="paid">Paid Only</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label" for="search">Search</label>
+                <div class="search-box">
+                    <input type="text" id="search" placeholder="Search tools...">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+
+            <button class="reset-btn" onclick="resetFilters()">Reset Filters</button>
+        </div>
+    </section>
+
+    <!-- Tools Container -->
+    <section class="tools-container">
+        <div class="tools-count">Showing <span id="count">19</span> tools</div>
+        <div class="tools-grid" id="toolsGrid">
+            <!-- Tools will be dynamically inserted here -->
+        </div>
+        <div class="no-results hidden" id="noResults">
+            <h3>No tools found</h3>
+            <p>Try adjusting your filters or search terms</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 HERE AND NOW AI – Artificial Intelligence Research Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // AI Tools Data
+        const aiTools = [
+            {
+                name: "Khanmigo",
+                logo: "KM",
+                description: "A free AI-powered teaching assistant by Khan Academy (nonprofit) with over 25 tools to streamline daily prep. Generates standards-aligned lesson plans, rubrics, activities, learning objectives, and exit tickets.",
+                url: "https://www.khanmigo.ai/",
+                pricing: "free",
+                professions: ["teachers"],
+                features: ["Lesson Planning", "Rubrics", "Activities"]
+            },
+            {
+                name: "Brisk Teaching",
+                logo: "BT",
+                description: "Chrome/Edge extension integrating with Google Docs, Slides, and Microsoft tools. Generates lesson plans, unit plans, quizzes with answer keys, presentations, rubrics, and adapts text for different reading levels.",
+                url: "https://www.briskteaching.com/",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["Lesson Planning", "Quizzes", "Presentations"]
+            },
+            {
+                name: "Eduaide.Ai",
+                logo: "EA",
+                description: "Designed by teachers with a large library of AI-powered educational resources. Helps plan lessons and units, create graphic organizers, engagement activities, leveled readings, and assessments.",
+                url: "https://www.eduaide.ai/",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["Lesson Planning", "Assessments", "Activities"]
+            },
+            {
+                name: "MagicSchool AI",
+                logo: "MS",
+                description: "All-in-one platform with over 60 AI tools for educators to save time. Offers lesson planning, assessment creation, IEP goal plans, report card comments, and parent communication tools.",
+                url: "https://www.magicschool.ai/",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["60+ Tools", "IEP Planning", "Parent Communication"]
+            },
+            {
+                name: "Canva for Education",
+                logo: "CE",
+                description: "Powerful design platform with Magic Write™ AI assistant for K-12 educators. Generate lesson plan drafts, presentations, quizzes, and visually appealing worksheets from thousands of templates.",
+                url: "https://www.canva.com/education/",
+                pricing: "free",
+                professions: ["teachers"],
+                features: ["Design", "Magic Write", "Templates"]
+            },
+            {
+                name: "Diffit",
+                logo: "DF",
+                description: "Specializes in adapting and customizing learning resources to meet diverse student reading needs. Generates content from any topic, URL, or text at the right reading level and in multiple languages.",
+                url: "https://web.diffit.me/",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["Reading Levels", "Multilingual", "Adaptation"]
+            },
+            {
+                name: "Curipod",
+                logo: "CP",
+                description: "Creates interactive lessons instantly with formative assessments. Generates interactive slide decks with polls, word clouds, open-ended questions, and drawing tools for student engagement.",
+                url: "https://curipod.com/",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["Interactive Lessons", "Polls", "Engagement"]
+            },
+            {
+                name: "Google Gemini",
+                logo: "GG",
+                description: "Generates lesson plans, brainstorms activities, adjusts content for different reading levels, drafts communications, and summarizes documents. Gemini for Education offers enhanced privacy and security.",
+                url: "https://gemini.google.com",
+                pricing: "freemium",
+                professions: ["teachers", "researchers", "developers", "marketing", "hr"],
+                features: ["Content Generation", "Summarization", "Communication"]
+            },
+            {
+                name: "OpenAI ChatGPT",
+                logo: "GPT",
+                description: "Generates lesson plans from standards, creates assessment questions, drafts rubrics, serves as a language-learning partner, and simplifies complex topics. GPT-3.5 is free; paid tiers offer advanced models.",
+                url: "https://chatgpt.com",
+                pricing: "freemium",
+                professions: ["teachers", "researchers", "developers", "marketing", "sales", "hr", "ceos"],
+                features: ["Lesson Planning", "Assessments", "Language Learning"]
+            },
+            {
+                name: "Microsoft Copilot",
+                logo: "MC",
+                description: "Integrated into Microsoft 365 for automating lesson planning, quiz generation, and student feedback. Creates images for visuals and summarizes data in Excel or Word. Free for educators with M365 license.",
+                url: "https://copilot.microsoft.com",
+                pricing: "freemium",
+                professions: ["teachers", "hr", "marketing", "sales", "developers", "ceos"],
+                features: ["Office Integration", "Automation", "Data Analysis"]
+            },
+            {
+                name: "Anthropic Claude",
+                logo: "AC",
+                description: "Used for curriculum development, academic research, and assessment. 'Learning Mode' uses Socratic questioning to guide student reasoning and foster critical thinking. Claude for Education offers enterprise security.",
+                url: "https://claude.ai",
+                pricing: "freemium",
+                professions: ["teachers", "researchers", "developers"],
+                features: ["Research", "Socratic Learning", "Curriculum Development"]
+            },
+            {
+                name: "Google NotebookLM",
+                logo: "NB",
+                description: "AI notebook research assistant. Upload source materials (Google Docs, PDFs) to generate study guides, FAQs, timelines, and simulated podcast overviews. Free globally with 100 notebook limit.",
+                url: "https://notebooklm.google.com",
+                pricing: "free",
+                professions: ["teachers", "researchers", "students"],
+                features: ["Research", "Study Guides", "Podcast Generation"]
+            },
+            {
+                name: "Canva Magic Studio",
+                logo: "CM",
+                description: "Integrated Magic Write AI assistant helps draft lesson plans, generate presentations, and create interactive materials within Canva's design platform.",
+                url: "https://www.canva.com",
+                pricing: "freemium",
+                professions: ["teachers", "marketing", "designers"],
+                features: ["AI Writing", "Design", "Presentations"]
+            },
+            {
+                name: "Gradescope",
+                logo: "GS",
+                description: "Assists with grading assignments using AI to group similar answers and apply rubrics. Provides performance analytics to identify learning gaps. By Turnitin.",
+                url: "https://www.gradescope.com",
+                pricing: "freemium",
+                professions: ["teachers"],
+                features: ["Auto-grading", "Analytics", "Rubrics"]
+            },
+            {
+                name: "Microsoft Immersive Reader",
+                logo: "IR",
+                description: "Accessibility tool helping students with dyslexia or language barriers by reading text aloud, highlighting words, and simplifying grammar. Integrated into Microsoft products as a free tool.",
+                url: "https://www.microsoft.com/en-us/education/products/learning-tools",
+                pricing: "free",
+                professions: ["teachers"],
+                features: ["Accessibility", "Text-to-Speech", "Language Support"]
+            }
+        ];
+
+        // Initialize
+        let filteredTools = [...aiTools];
+
+        // Render tools
+        function renderTools() {
+            const grid = document.getElementById('toolsGrid');
+            const noResults = document.getElementById('noResults');
+            const count = document.getElementById('count');
+            
+            grid.innerHTML = '';
+            
+            if (filteredTools.length === 0) {
+                noResults.classList.remove('hidden');
+                count.textContent = '0';
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            count.textContent = filteredTools.length;
+            
+            filteredTools.forEach((tool, index) => {
+                const card = document.createElement('div');
+                card.className = 'tool-card fade-in';
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                const pricingClass = 
+                    tool.pricing === 'free' ? 'pricing-free' :
+                    tool.pricing === 'freemium' ? 'pricing-freemium' :
+                    'pricing-paid';
+                
+                const pricingText =
+                    tool.pricing === 'free' ? 'Free' :
+                    tool.pricing === 'freemium' ? 'Free Tier Available' :
+                    'Paid';
+                
+                card.innerHTML = `
+                    <div class="tool-header">
+                        <div class="tool-logo">${tool.logo}</div>
+                        <div class="tool-info">
+                            <div class="tool-name">${tool.name}</div>
+                            <span class="tool-pricing ${pricingClass}">${pricingText}</span>
+                        </div>
+                    </div>
+                    <p class="tool-description">${tool.description}</p>
+                    <div class="tool-tags">
+                        ${tool.features.map(f => `<span class="tag">${f}</span>`).join('')}
+                    </div>
+                    <a href="${tool.url}" target="_blank" class="tool-link">
+                        Visit Tool
+                        <span>→</span>
+                    </a>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter tools
+        function filterTools() {
+            const profession = document.getElementById('profession').value;
+            const pricing = document.getElementById('pricing').value;
+            const search = document.getElementById('search').value.toLowerCase();
+            
+            filteredTools = aiTools.filter(tool => {
+                const matchesProfession = profession === 'all' || tool.professions.includes(profession);
+                const matchesPricing = pricing === 'all' || tool.pricing === pricing;
+                const matchesSearch = tool.name.toLowerCase().includes(search) || 
+                                     tool.description.toLowerCase().includes(search) ||
+                                     tool.features.some(f => f.toLowerCase().includes(search));
+                
+                return matchesProfession && matchesPricing && matchesSearch;
+            });
+            
+            renderTools();
+        }
+
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('profession').value = 'all';
+            document.getElementById('pricing').value = 'all';
+            document.getElementById('search').value = '';
+            filterTools();
+        }
+
+        // Animate stats
+        function animateStats() {
+            document.querySelectorAll('.stat-number').forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('profession').addEventListener('change', filterTools);
+        document.getElementById('pricing').addEventListener('change', filterTools);
+        document.getElementById('search').addEventListener('input', filterTools);
+
+        // Initialize
+        renderTools();
+        animateStats();
+    </script>
+</body>
+</html>
