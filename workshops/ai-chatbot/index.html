@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build an AI Chatbot - HERE AND NOW AI Workshop</title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+    <style>
+        :root {
+            --brand-yellow: #FFDF00;
+            --brand-teal: #004040;
+            --bg-dark: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --code-bg: #1e1e1e;
+            --success-green: #4ade80;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--brand-teal) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--brand-yellow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .back-link {
+            color: var(--brand-yellow);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--brand-yellow);
+            border-radius: 8px;
+        }
+
+        .back-link:hover {
+            background: var(--brand-yellow);
+            color: var(--brand-teal);
+            transform: translateX(-5px);
+        }
+
+        /* Presentation Container */
+        .presentation-container {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .slide {
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid var(--brand-yellow);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            min-height: 600px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            box-shadow: 0 20px 60px rgba(255, 223, 0, 0.3);
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Slide Title */
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-yellow);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Step Number Badge */
+        .step-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 223, 0, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px 10px rgba(255, 223, 0, 0);
+            }
+        }
+
+        /* Code Block Simulation (Colab style) */
+        .code-block {
+            background: var(--code-bg);
+            border-left: 4px solid var(--brand-yellow);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: #d4d4d4;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-block::before {
+            content: '[ ]';
+            position: absolute;
+            left: -2rem;
+            top: 1.5rem;
+            color: var(--brand-yellow);
+            font-weight: 700;
+        }
+
+        .code-line {
+            line-height: 1.6;
+            margin: 0.3rem 0;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        .code-variable {
+            color: #9cdcfe;
+        }
+
+        /* Text Block */
+        .text-block {
+            background: rgba(0, 64, 64, 0.2);
+            border-left: 4px solid var(--brand-teal);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .text-block strong {
+            color: var(--brand-yellow);
+        }
+
+        /* List Styling */
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .feature-list li {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 223, 0, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--brand-yellow);
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            transform: translateX(10px);
+            background: rgba(255, 223, 0, 0.2);
+        }
+
+        .feature-list li strong {
+            color: var(--brand-yellow);
+            font-size: 1.2rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(255, 223, 0, 0.3);
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, var(--brand-yellow), var(--brand-teal));
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 223, 0, 0.4);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .slide-counter {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 78px;
+            left: 0;
+            height: 4px;
+            background: var(--brand-yellow);
+            transition: width 0.3s ease;
+            z-index: 999;
+        }
+
+        /* Logo in slides */
+        .slide-logo {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .slide-logo img {
+            max-width: 300px;
+            height: auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Emoji Icons */
+        .emoji-icon {
+            font-size: 3rem;
+            display: block;
+            text-align: center;
+            margin: 1rem 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 1.8rem;
+            }
+
+            .slide {
+                padding: 2rem;
+                min-height: 500px;
+            }
+
+            .code-block {
+                font-size: 0.9rem;
+                padding: 1rem;
+            }
+
+            .nav-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Key Highlight */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 223, 0, 0.2), rgba(0, 64, 64, 0.2));
+            border: 2px solid var(--brand-yellow);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .highlight-box h3 {
+            color: var(--brand-yellow);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <img src="https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png" alt="HERE AND NOW AI" class="logo-img">
+            <a href="../../index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Presentation Container -->
+    <div class="presentation-container">
+        <!-- Slide 1: Welcome -->
+        <div class="slide active" id="slide-1">
+            <div class="animate-in">
+                <div class="slide-logo">
+                    <img src="https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png" alt="HERE AND NOW AI">
+                </div>
+                <h1 class="slide-title">Build Your Own AI Chatbot! 🤖</h1>
+                <p class="slide-subtitle">A Step-by-Step Workshop by HERE AND NOW AI</p>
+                
+                <div class="text-block">
+                    <p><strong>Welcome to an exciting journey!</strong> In this workshop, you'll learn how to build <strong>Caramel AI</strong> – a friendly AI teacher chatbot powered by Google's Gemini model.</p>
+                    <p style="margin-top: 1rem;">We'll use <strong>Google Colab</strong> (a free cloud platform) and follow a simple <strong>6-step process</strong> to bring your chatbot to life!</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🎯 What You'll Learn</h3>
+                    <ul class="feature-list">
+                        <li><strong>Step 1:</strong> Install required libraries (OpenAI & Gradio)</li>
+                        <li><strong>Step 2:</strong> Import necessary modules</li>
+                        <li><strong>Step 3:</strong> Connect to Gemini AI API</li>
+                        <li><strong>Step 4:</strong> Create an AI personality (System Prompt)</li>
+                        <li><strong>Step 5:</strong> Build the conversation logic</li>
+                        <li><strong>Step 6:</strong> Design the user interface</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; font-size: 1.3rem; color: var(--brand-yellow); margin-top: 2rem;">
+                    Let's get started! Click <strong>Next</strong> to begin your AI journey! 🚀
+                </p>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()" disabled>← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Step 1 - Install -->
+        <div class="slide" id="slide-2">
+            <div class="animate-in">
+                <span class="step-badge">STEP 1 of 6</span>
+                <h1 class="slide-title">Install Required Libraries 📦</h1>
+                
+                <div class="text-block">
+                    <p><strong>First things first!</strong> We need to install two powerful Python libraries:</p>
+                    <ul style="margin-top: 1rem; margin-left: 2rem;">
+                        <li><strong>openai</strong> – Connects to AI models like Gemini</li>
+                        <li><strong>gradio</strong> – Creates beautiful chat interfaces with just a few lines of code</li>
+                    </ul>
+                </div>
+
+                <div class="emoji-icon">📦 → 🤖</div>
+
+                <div class="code-block">
+                    <div class="code-line"><span class="code-comment"># Install OpenAI and Gradio libraries</span></div>
+                    <div class="code-line"><span class="code-keyword">!</span>pip install openai gradio</div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>💡 What's happening here?</strong></p>
+                    <p>The <code>!pip install</code> command downloads and installs these libraries from the internet. Think of it like downloading apps on your phone – but for Python! 📲</p>
+                    <p style="margin-top: 1rem;"><strong>✅ After running this:</strong> You'll see installation progress messages. Wait for it to complete before moving to Step 2!</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">2</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Step 2 - Import -->
+        <div class="slide" id="slide-3">
+            <div class="animate-in">
+                <span class="step-badge">STEP 2 of 6</span>
+                <h1 class="slide-title">Import Python Modules 📚</h1>
+                
+                <div class="text-block">
+                    <p><strong>Now that libraries are installed, let's import them!</strong></p>
+                    <p>Think of importing like opening toolboxes – we're getting ready to use specific tools from each library. 🧰</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-line"><span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span></div>
+                    <div class="code-line"><span class="code-keyword">import</span> <span class="code-variable">gradio</span> <span class="code-keyword">as</span> <span class="code-variable">gr</span></div>
+                    <div class="code-line"><span class="code-keyword">from</span> <span class="code-variable">google.colab</span> <span class="code-keyword">import</span> <span class="code-variable">userdata</span></div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>🔍 Let's break this down:</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>OpenAI:</strong> The main class to connect with AI models (like Gemini)</li>
+                        <li><strong>gradio as gr:</strong> Imported with a shorter name "gr" to make coding easier</li>
+                        <li><strong>userdata:</strong> A Google Colab tool to securely access your API keys</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>✨ Pro Tip</h3>
+                    <p>Always import at the top of your notebook! It's like organizing your desk before starting work. 📝</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">3</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Step 3 - API Configuration -->
+        <div class="slide" id="slide-4">
+            <div class="animate-in">
+                <span class="step-badge">STEP 3 of 6</span>
+                <h1 class="slide-title">Connect to Gemini AI 🔗</h1>
+                
+                <div class="text-block">
+                    <p><strong>Time to connect to Google's Gemini AI!</strong></p>
+                    <p>We need to tell our code <em>where</em> to find the AI (base_url) and <em>how</em> to access it (API key). It's like entering an address and password to log in! 🔐</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-line"><span class="code-variable">base_url</span> = <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span></div>
+                    <div class="code-line"><span class="code-variable">api_key</span> = <span class="code-variable">userdata</span>.<span class="code-function">get</span>(<span class="code-string">"GEMINI_API_KEY"</span>)</div>
+                    <div class="code-line"><span class="code-variable">client</span> = <span class="code-function">OpenAI</span>(<span class="code-variable">base_url</span>=base_url, <span class="code-variable">api_key</span>=api_key)</div>
+                    <div class="code-line"><span class="code-variable">model</span> = <span class="code-string">"gemini-2.5-flash-lite"</span></div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>🧩 What each line does:</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>base_url:</strong> The web address where Gemini AI lives</li>
+                        <li><strong>api_key:</strong> Your secret key stored in Colab (keeps it safe!)</li>
+                        <li><strong>client:</strong> Creates a connection to the AI service</li>
+                        <li><strong>model:</strong> Chooses which version of Gemini to use (we're using the fast "flash-lite" version!)</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🔑 Getting Your API Key</h3>
+                    <p>Visit <strong>ai.google.dev</strong> to get a free Gemini API key, then store it in Colab's "Secrets" section under the name <code>GEMINI_API_KEY</code>.</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">4</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Step 4 - System Prompt -->
+        <div class="slide" id="slide-5">
+            <div class="animate-in">
+                <span class="step-badge">STEP 4 of 6</span>
+                <h1 class="slide-title">Create AI Personality 🎭</h1>
+                
+                <div class="text-block">
+                    <p><strong>This is where the magic happens!</strong> 🪄</p>
+                    <p>The <strong>system prompt</strong> is like giving your AI a personality, a job, and instructions on how to behave. We're creating <strong>Caramel AI</strong> – a friendly AI teacher!</p>
+                </div>
+
+                <div class="code-block" style="max-height: 300px; overflow-y: auto;">
+                    <div class="code-line"><span class="code-variable">ai_teacher</span> = <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI -</span></div>
+                    <div class="code-line"><span class="code-string">                        Artificial Intelligence Research Institute.</span></div>
+                    <div class="code-line"><span class="code-string">                        Your mission is to **teach AI to beginners** like you're</span></div>
+                    <div class="code-line"><span class="code-string">                        explaining it to a **10-year-old**.</span></div>
+                    <div class="code-line"><span class="code-string">                        Always be **clear**, **simple**, and **direct**.</span></div>
+                    <div class="code-line"><span class="code-string">                        Use **short sentences** and **avoid complex words**.</span></div>
+                    <div class="code-line"><span class="code-string">                        You are **conversational**. Always **ask questions** to involve the user.</span></div>
+                    <div class="code-line"><span class="code-string">                        After every explanation, ask a small follow-up question to keep</span></div>
+                    <div class="code-line"><span class="code-string">                        the interaction going. Avoid long paragraphs."""</span></div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>🎨 Customize Your AI!</strong></p>
+                    <p>You can change this prompt to make your AI:</p>
+                    <ul class="feature-list">
+                        <li>🧑‍🍳 A cooking assistant</li>
+                        <li>📖 A storyteller</li>
+                        <li>💼 A career advisor</li>
+                        <li>🎮 A gaming buddy</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">The possibilities are endless! Just modify the text inside the triple quotes (<code>"""..."""</code>).</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">5</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: Step 5 - Function -->
+        <div class="slide" id="slide-6">
+            <div class="animate-in">
+                <span class="step-badge">STEP 5 of 6</span>
+                <h1 class="slide-title">Build Conversation Logic 🧠</h1>
+                
+                <div class="text-block">
+                    <p><strong>Now we create the brain of our chatbot!</strong></p>
+                    <p>This function handles the conversation flow: taking user messages, sending them to Gemini, and returning AI responses. 💬</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-line"><span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):</div>
+                    <div class="code-line">    <span class="code-variable">messages</span> = [{<span class="code-string">"role"</span>:<span class="code-string">"system"</span>, <span class="code-string">"content"</span>:<span class="code-variable">ai_teacher</span>}]</div>
+                    <div class="code-line">    <span class="code-variable">messages</span>.<span class="code-function">extend</span>(<span class="code-variable">history</span>)</div>
+                    <div class="code-line">    <span class="code-variable">messages</span>.<span class="code-function">append</span>({<span class="code-string">"role"</span>:<span class="code-string">"user"</span>, <span class="code-string">"content"</span>:<span class="code-variable">message</span>})</div>
+                    <div class="code-line">    <span class="code-variable">response</span> = <span class="code-variable">client</span>.<span class="code-variable">chat</span>.<span class="code-variable">completions</span>.<span class="code-function">create</span>(<span class="code-variable">model</span>=model, <span class="code-variable">messages</span>=messages)</div>
+                    <div class="code-line">    <span class="code-variable">ai_response</span> = <span class="code-variable">response</span>.<span class="code-variable">choices</span>[<span class="code-string">0</span>].<span class="code-variable">message</span>.<span class="code-variable">content</span></div>
+                    <div class="code-line">    <span class="code-keyword">return</span> <span class="code-variable">ai_response</span></div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>🔄 How it works:</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>Line 1:</strong> Define a function that takes user message & conversation history</li>
+                        <li><strong>Line 2:</strong> Start with the system prompt (AI personality)</li>
+                        <li><strong>Line 3:</strong> Add previous conversation history (so AI remembers context)</li>
+                        <li><strong>Line 4:</strong> Add the new user message</li>
+                        <li><strong>Line 5:</strong> Send everything to Gemini and get a response</li>
+                        <li><strong>Line 6:</strong> Extract the AI's text response</li>
+                        <li><strong>Line 7:</strong> Return the response to display in the chat</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🎯 Key Concept</h3>
+                    <p>The conversation history lets your AI remember what was said earlier – making it feel more natural and human-like! 🧑‍💻</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">6</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: Step 6 - UI -->
+        <div class="slide" id="slide-7">
+            <div class="animate-in">
+                <span class="step-badge">STEP 6 of 6</span>
+                <h1 class="slide-title">Create Beautiful UI 🎨</h1>
+                
+                <div class="text-block">
+                    <p><strong>Final step – bring it all together with a stunning interface!</strong></p>
+                    <p>Gradio makes it super easy to create a professional chat UI with just a few lines. ✨</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-line"><span class="code-variable">PAGE_TITLE</span> = <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span></div>
+                    <div class="code-line"><span class="code-variable">LOGO_URL</span> = <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/..."</span></div>
+                    <div class="code-line"><span class="code-variable">ASSISTANT_AVATAR_URL</span> = <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/..."</span></div>
+                    <div class="code-line">&nbsp;</div>
+                    <div class="code-line"><span class="code-variable">description_md</span> = <span class="code-keyword">f</span><span class="code-string">"""&lt;img src='{LOGO_URL}' width='500' style='display: block; margin: auto;'&gt;</span></div>
+                    <div class="code-line"><span class="code-string">                     &lt;br&gt;Your friendly AI teacher for learning the basics of AI!"""</span></div>
+                    <div class="code-line">&nbsp;</div>
+                    <div class="code-line"><span class="code-variable">gr</span>.<span class="code-function">ChatInterface</span>(</div>
+                    <div class="code-line">    <span class="code-variable">fn</span>=get_response,</div>
+                    <div class="code-line">    <span class="code-variable">chatbot</span>=gr.<span class="code-function">Chatbot</span>(<span class="code-variable">type</span>=<span class="code-string">'messages'</span>, <span class="code-variable">avatar_images</span>=[<span class="code-keyword">None</span>, <span class="code-variable">ASSISTANT_AVATAR_URL</span>]),</div>
+                    <div class="code-line">    <span class="code-variable">title</span>=PAGE_TITLE,</div>
+                    <div class="code-line">    <span class="code-variable">description</span>=description_md,</div>
+                    <div class="code-line">    <span class="code-variable">examples</span>=[<span class="code-string">"What is AI?"</span>, <span class="code-string">"What does GPT stand for?"</span>, <span class="code-string">"Explain Neural Network!"</span>],</div>
+                    <div class="code-line">    <span class="code-variable">type</span>=<span class="code-string">'messages'</span></div>
+                    <div class="code-line">).<span class="code-function">queue</span>().<span class="code-function">launch</span>(<span class="code-variable">show_error</span>=<span class="code-keyword">True</span>, <span class="code-variable">ssr_mode</span>=<span class="code-keyword">False</span>)</div>
+                </div>
+
+                <div class="text-block">
+                    <p><strong>🎨 UI Customization:</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>title:</strong> The main heading of your app</li>
+                        <li><strong>description:</strong> Text/HTML shown at the top (we add the HERE AND NOW AI logo!)</li>
+                        <li><strong>avatar_images:</strong> Custom profile pictures for user & AI</li>
+                        <li><strong>examples:</strong> Suggested questions users can click to try</li>
+                        <li><strong>.launch():</strong> Opens the chat interface in a new window! 🚀</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">7</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: Conclusion -->
+        <div class="slide" id="slide-8">
+            <div class="animate-in">
+                <div class="slide-logo">
+                    <img src="https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png" alt="HERE AND NOW AI">
+                </div>
+                <h1 class="slide-title">🎉 Congratulations!</h1>
+                <p class="slide-subtitle">You've Built Your AI Chatbot!</p>
+
+                <div class="emoji-icon">🤖✨🚀</div>
+                
+                <div class="highlight-box">
+                    <h3>What You Accomplished Today</h3>
+                    <ul class="feature-list">
+                        <li>✅ Installed AI libraries</li>
+                        <li>✅ Connected to Google Gemini</li>
+                        <li>✅ Created an AI personality</li>
+                        <li>✅ Built conversation logic</li>
+                        <li>✅ Designed a beautiful chat UI</li>
+                        <li>✅ Launched your own AI chatbot!</li>
+                    </ul>
+                </div>
+
+                <div class="text-block">
+                    <h2 style="color: var(--brand-yellow); margin-bottom: 1rem;">🚀 What's Next?</h2>
+                    <ul style="line-height: 2;">
+                        <li>🎨 <strong>Customize:</strong> Change the personality, add new features, or modify the UI colors</li>
+                        <li>📤 <strong>Share:</strong> Get a public link from Gradio and share your chatbot with friends!</li>
+                        <li>🧪 <strong>Experiment:</strong> Try different AI models or add voice input/output</li>
+                        <li>📚 <strong>Learn More:</strong> Explore HERE AND NOW AI's advanced workshops</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Keep Learning! 💡</h3>
+                    <p>Visit <strong>HERE AND NOW AI</strong> for more workshops, courses, and AI resources.</p>
+                    <p style="margin-top: 1rem; font-size: 1.2rem;">Thank you for learning with us! 🙏</p>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-button" onclick="previousSlide()">← Previous</button>
+                <span class="slide-counter"><span id="currentSlide">8</span> / <span id="totalSlides">8</span></span>
+                <button class="nav-button" onclick="nextSlide()" disabled>Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Navigate to specific slide
+        function goToSlide(n) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            currentSlide = Math.max(1, Math.min(n, totalSlides));
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            
+            // Update all slide counters
+            document.querySelectorAll('#currentSlide').forEach(el => {
+                el.textContent = currentSlide;
+            });
+            
+            updateProgress();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) previousSlide();
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
