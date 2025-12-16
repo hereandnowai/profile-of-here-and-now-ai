@@ -121,6 +121,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
+            position: relative;
         }
 
         .cell-header {
@@ -217,11 +218,42 @@
             border: 1px solid var(--colab-border);
             border-radius: 4px;
             padding: 1.5rem;
+            padding-top: 3rem;
             font-family: 'Roboto Mono', monospace;
             font-size: 1rem;
             line-height: 1.6;
             overflow-x: auto;
             white-space: pre;
+            position: relative;
+        }
+
+        .cell-toolbar {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .cell-toolbar .copy-btn,
+        .cell-toolbar .explain-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            min-width: auto;
+        }
+
+        .cell-toolbar .copy-btn {
+            gap: 0.3rem;
+        }
+
+        .cell-toolbar .explain-btn {
+            gap: 0.3rem;
+        }
+
+        .cell-toolbar .explain-btn span:last-child {
+            display: none;
         }
 
         .code-line {
@@ -520,6 +552,12 @@
             .modal-content::before {
                 display: none;
             }
+
+            .cell-toolbar .copy-btn,
+            .cell-toolbar .explain-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
         }
 
         /* Smooth scroll */
@@ -601,16 +639,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 1 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-1')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block"><span class="code-comment"># Install OpenAI and Gradio libraries</span>
+<span class="code-comment"># Install OpenAI and Gradio libraries</span>
 <span class="code-keyword">!</span>pip install openai gradio</div>
             </div>
         </div>
@@ -620,16 +659,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 2 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-2')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block"><span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span>
+<span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span>
 <span class="code-keyword">import</span> <span class="code-variable">gradio</span> <span class="code-keyword">as</span> <span class="code-variable">gr</span>
 <span class="code-keyword">from</span> <span class="code-variable">google.colab</span> <span class="code-keyword">import</span> <span class="code-variable">userdata</span></div>
             </div>
@@ -640,16 +680,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 3 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-3')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block"><span class="code-variable">base_url</span> <span class="operator">=</span> <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span>
+<span class="code-variable">base_url</span> <span class="operator">=</span> <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span>
 <span class="code-variable">api_key</span> <span class="operator">=</span> <span class="code-variable">userdata</span>.<span class="code-function">get</span>(<span class="code-string">"GEMINI_API_KEY"</span>)
 <span class="code-variable">client</span> <span class="operator">=</span> <span class="code-function">OpenAI</span>(<span class="code-variable">base_url</span>=base_url, <span class="code-variable">api_key</span>=api_key)
 <span class="code-variable">model</span> <span class="operator">=</span> <span class="code-string">"gemini-2.5-flash-lite"</span></div>
@@ -661,16 +702,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 4 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block" style="max-height: 300px; overflow-y: auto;">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-4')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block" style="max-height: 300px; overflow-y: auto;"><span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI - Artificial Intelligence Research Institute.
+<span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI - Artificial Intelligence Research Institute.
                         Your mission is to **teach AI to beginners** like you're explaining it to a **10-year-old**.
                         Always be **clear**, **simple**, and **direct**. Use **short sentences** and **avoid complex words**.
                         You are **conversational**. Always **ask questions** to involve the user.
@@ -688,16 +730,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 5 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-5')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):
+<span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):
     <span class="code-variable">messages</span> <span class="operator">=</span> [{<span class="code-string">"role"</span>:<span class="code-string">"system"</span>, <span class="code-string">"content"</span>:<span class="code-variable">ai_teacher</span>}]
     <span class="code-variable">messages</span>.<span class="code-function">extend</span>(<span class="code-variable">history</span>)
     <span class="code-variable">messages</span>.<span class="code-function">append</span>({<span class="code-string">"role"</span>:<span class="code-string">"user"</span>, <span class="code-string">"content"</span>:<span class="code-variable">message</span>})
@@ -715,16 +758,17 @@
             <div class="cell-code">
                 <div class="cell-header">
                     <span class="step-badge">STEP 6 of 6</span>
-                    <div class="header-actions">
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block">
+                    <div class="cell-toolbar">
                         <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
                         <button class="explain-btn" onclick="openModal('modal-6')">
                             <span>💡</span>
                             <span>Explain</span>
                         </button>
                     </div>
-                </div>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block"><span class="code-variable">PAGE_TITLE</span> <span class="operator">=</span> <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span>
+<span class="code-variable">PAGE_TITLE</span> <span class="operator">=</span> <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span>
 <span class="code-variable">LOGO_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png"</span>
 <span class="code-variable">ASSISTANT_AVATAR_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/caramel-face.jpeg"</span>
 
