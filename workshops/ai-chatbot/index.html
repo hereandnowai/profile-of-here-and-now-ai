@@ -194,6 +194,7 @@
             font-size: 1rem;
             line-height: 1.6;
             overflow-x: auto;
+            white-space: pre;
         }
 
         .code-line {
@@ -579,10 +580,8 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block">
-<span class="code-comment"># Install OpenAI and Gradio libraries</span>
-<span class="code-keyword">!</span>pip install openai gradio
-                </div>
+                <div class="code-block"><span class="code-comment"># Install OpenAI and Gradio libraries</span>
+<span class="code-keyword">!</span>pip install openai gradio</div>
             </div>
         </div>
 
@@ -597,11 +596,9 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block">
-<span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span>
+                <div class="code-block"><span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span>
 <span class="code-keyword">import</span> <span class="code-variable">gradio</span> <span class="code-keyword">as</span> <span class="code-variable">gr</span>
-<span class="code-keyword">from</span> <span class="code-variable">google.colab</span> <span class="code-keyword">import</span> <span class="code-variable">userdata</span>
-                </div>
+<span class="code-keyword">from</span> <span class="code-variable">google.colab</span> <span class="code-keyword">import</span> <span class="code-variable">userdata</span></div>
             </div>
         </div>
 
@@ -616,12 +613,10 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block">
-<span class="code-variable">base_url</span> <span class="operator">=</span> <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span>
+                <div class="code-block"><span class="code-variable">base_url</span> <span class="operator">=</span> <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span>
 <span class="code-variable">api_key</span> <span class="operator">=</span> <span class="code-variable">userdata</span>.<span class="code-function">get</span>(<span class="code-string">"GEMINI_API_KEY"</span>)
 <span class="code-variable">client</span> <span class="operator">=</span> <span class="code-function">OpenAI</span>(<span class="code-variable">base_url</span>=base_url, <span class="code-variable">api_key</span>=api_key)
-<span class="code-variable">model</span> <span class="operator">=</span> <span class="code-string">"gemini-2.5-flash-lite"</span>
-                </div>
+<span class="code-variable">model</span> <span class="operator">=</span> <span class="code-string">"gemini-2.5-flash-lite"</span></div>
             </div>
         </div>
 
@@ -636,9 +631,16 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block" style="max-height: 300px; overflow-y: auto;">
-<span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI - Artificial Intelligence Research Institute. Your mission is to **teach AI to beginners** like you're explaining it to a **10-year-old**. Always be **clear**, **simple**, and **direct**. Use **short sentences** and **avoid complex words**. You are **conversational**. Always **ask questions** to involve the user. After every explanation, ask a small follow-up question to keep the interaction going. Avoid long paragraphs. Think of your answers as **one sentence at a time**. Use examples, analogies, and comparisons to things kids can understand. Your tone is always: **friendly, encouraging, and curious**. Your answers should help students, researchers, or professionals who are just starting with AI. Always encourage them by saying things like: "You're doing great!" "Let's learn together!" "That's a smart question!" Do **not** give long technical explanations. Instead, **build the understanding step by step.** You say always that you are **"Caramel AI – AI Teacher, built at HERE AND NOW AI – Artificial Intelligence Research Institute."**"""</span>
-                </div>
+                <div class="code-block" style="max-height: 300px; overflow-y: auto;"><span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI - Artificial Intelligence Research Institute.
+                        Your mission is to **teach AI to beginners** like you're explaining it to a **10-year-old**.
+                        Always be **clear**, **simple**, and **direct**. Use **short sentences** and **avoid complex words**.
+                        You are **conversational**. Always **ask questions** to involve the user.
+                        After every explanation, ask a small follow-up question to keep the interaction going. Avoid long paragraphs.
+                        Think of your answers as **one sentence at a time**. Use examples, analogies, and comparisons to things kids can understand.
+                        Your tone is always: **friendly, encouraging, and curious**. Your answers should help students, researchers, or professionals who are just starting with AI.
+                        Always encourage them by saying things like: "You're doing great!" "Let's learn together!" "That's a smart question!"
+                        Do **not** give long technical explanations. Instead, **build the understanding step by step.**
+                        You say always that you are **"Caramel AI – AI Teacher, built at HERE AND NOW AI – Artificial Intelligence Research Institute."**"""</span></div>
             </div>
         </div>
 
@@ -653,8 +655,7 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block">
-<span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):
+                <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):
     <span class="code-variable">messages</span> <span class="operator">=</span> [{<span class="code-string">"role"</span>:<span class="code-string">"system"</span>, <span class="code-string">"content"</span>:<span class="code-variable">ai_teacher</span>}]
     <span class="code-variable">messages</span>.<span class="code-function">extend</span>(<span class="code-variable">history</span>)
     <span class="code-variable">messages</span>.<span class="code-function">append</span>({<span class="code-string">"role"</span>:<span class="code-string">"user"</span>, <span class="code-string">"content"</span>:<span class="code-variable">message</span>})
@@ -663,8 +664,7 @@
         <span class="code-variable">messages</span>=<span class="code-variable">messages</span>
     )
     <span class="code-variable">ai_response</span> <span class="operator">=</span> <span class="code-variable">response</span>.<span class="code-variable">choices</span>[<span class="number">0</span>].<span class="code-variable">message</span>.<span class="code-variable">content</span>
-    <span class="code-keyword">return</span> <span class="code-variable">ai_response</span>
-                </div>
+    <span class="code-keyword">return</span> <span class="code-variable">ai_response</span></div>
             </div>
         </div>
 
@@ -679,12 +679,12 @@
                     </button>
                 </div>
                 <div class="cell-bracket">[ ]</div>
-                <div class="code-block">
-<span class="code-variable">PAGE_TITLE</span> <span class="operator">=</span> <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span>
+                <div class="code-block"><span class="code-variable">PAGE_TITLE</span> <span class="operator">=</span> <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span>
 <span class="code-variable">LOGO_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png"</span>
 <span class="code-variable">ASSISTANT_AVATAR_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/caramel-face.jpeg"</span>
 
-<span class="code-variable">description_md</span> <span class="operator">=</span> <span class="code-keyword">f</span><span class="code-string">"""&lt;img src='{LOGO_URL}' width='500' style='display: block; margin: auto;'&gt; &lt;br&gt;Your friendly AI teacher for learning the basics of Artificial Intelligence!"""</span>
+<span class="code-variable">description_md</span> <span class="operator">=</span> <span class="code-keyword">f</span><span class="code-string">"""&lt;img src='{LOGO_URL}' width='500' style='display: block; margin: auto;'&gt;
+                     &lt;br&gt;Your friendly AI teacher for learning the basics of Artificial Intelligence!"""</span>
 
 <span class="code-variable">gr</span>.<span class="code-function">ChatInterface</span>(
     <span class="code-variable">fn</span>=<span class="code-variable">get_response</span>,
@@ -701,8 +701,7 @@
         <span class="code-string">"What is RLHF"</span>
     ],
     <span class="code-variable">type</span>=<span class="code-string">'messages'</span>
-).<span class="code-function">queue</span>().<span class="code-function">launch</span>(<span class="code-variable">show_error</span>=<span class="code-keyword">True</span>, <span class="code-variable">ssr_mode</span>=<span class="code-keyword">False</span>)
-                </div>
+).<span class="code-function">queue</span>().<span class="code-function">launch</span>(<span class="code-variable">show_error</span>=<span class="code-keyword">True</span>, <span class="code-variable">ssr_mode</span>=<span class="code-keyword">False</span>)</div>
             </div>
         </div>
 
