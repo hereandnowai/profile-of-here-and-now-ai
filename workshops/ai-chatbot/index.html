@@ -237,14 +237,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             animation: fadeIn 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         @keyframes fadeIn {
@@ -256,30 +250,46 @@
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            max-width: 700px;
+            width: 400px;
             max-height: 80vh;
             overflow-y: auto;
-            position: relative;
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s ease;
-            margin: 1rem;
+            animation: slideInRight 0.3s ease;
         }
 
-        @keyframes slideUp {
+        /* Arrow pointing to the code */
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 20px solid white;
+        }
+
+        @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                right: -400px;
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                right: 2rem;
             }
         }
 
         .modal-close {
             position: absolute;
-            right: 1rem;
-            top: 1rem;
+            top: 0.5rem;
+            right: 0.5rem;
             background: none;
             border: none;
             font-size: 2rem;
@@ -292,11 +302,13 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
+            z-index: 10;
         }
 
         .modal-close:hover {
             background: #f5f5f5;
             color: var(--text-dark);
+            transform: rotate(90deg);
         }
 
         .explanation-title {
@@ -472,8 +484,13 @@
             }
 
             .modal-content {
-                max-width: 95%;
+                width: 90%;
+                right: 1rem;
                 padding: 1.5rem;
+            }
+
+            .modal-content::before {
+                display: none;
             }
         }
 
@@ -591,7 +608,13 @@
         <!-- Cell 3: API Configuration -->
         <div class="cell" id="step-3">
             <div class="cell-code">
-                <span class="step-badge">STEP 3 of 6</span>
+                <div class="cell-header">
+                    <span class="step-badge">STEP 3 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-3')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block">
 <span class="code-variable">base_url</span> <span class="operator">=</span> <span class="code-string">"https://generativelanguage.googleapis.com/v1beta/openai/"</span>
@@ -600,8 +623,20 @@
 <span class="code-variable">model</span> <span class="operator">=</span> <span class="code-string">"gemini-2.5-flash-lite"</span>
                 </div>
             </div>
-            <div class="cell-explanation">
+        </div>
 
+        <!-- Cell 4: System Prompt -->
+        <div class="cell" id="step-4">
+            <div class="cell-code">
+                <div class="cell-header">
+                    <span class="step-badge">STEP 4 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-4')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
+                <div class="cell-bracket">[ ]</div>
+                <div class="code-block" style="max-height: 300px; overflow-y: auto;">
 <span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI -
                         Artificial Intelligence Research Institute.
                         Your mission is to **teach AI to beginners** like you're
@@ -648,32 +683,6 @@
     )
     <span class="code-variable">ai_response</span> <span class="operator">=</span> <span class="code-variable">response</span>.<span class="code-variable">choices</span>[<span class="number">0</span>].<span class="code-variable">message</span>.<span class="code-variable">content</span>
     <span class="code-keyword">return</span> <span class="code-variable">ai_response</span>
-                </div>
-            </div>
-            <div class="cell-explanation">
-                <div class="explanation-title">🧠 Build Conversation Logic</div>
-                <div class="explanation-content">
-                    <p><strong>Now we create the brain of our chatbot!</strong> This function handles the conversation flow. 💬</p>
-                    
-                    <ul class="explanation-list">
-                        <li><strong>Line 1:</strong> Define function taking user message & history</li>
-                        <li><strong>Line 2:</strong> Start with system prompt (AI personality)</li>
-                        <li><strong>Line 3:</strong> Add conversation history (AI remembers context!)</li>
-                        <li><strong>Line 4:</strong> Append the new user message</li>
-                        <li><strong>Lines 5-8:</strong> Send to Gemini and get response</li>
-                        <li><strong>Line 9:</strong> Extract the AI's text</li>
-                        <li><strong>Line 10:</strong> Return response to display</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>🎯 Key Concept:</strong><br>
-                        The conversation history lets your AI remember what was said earlier – making it feel more natural and human-like! The AI can reference previous questions and build on earlier topics.
-                    </div>
-
-                    <div class="tip-box">
-                        <strong>🔄 How It Flows:</strong><br>
-                        User types → Function captures message → Adds to history → Sends to Gemini → Gets AI response → Displays in chat → Repeats!
-                    </div>
                 </div>
             </div>
         </div>
@@ -928,11 +937,13 @@
 
     <script>
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // Close modal when clicking outside
@@ -950,6 +961,7 @@
                 document.querySelectorAll('.modal').forEach(modal => {
                     modal.style.display = 'none';
                 });
+                document.body.style.overflow = 'auto';
             }
         });
     </script>
