@@ -106,9 +106,8 @@
 
         /* Cell Container (mimics Colab) */
         .cell {
-            display: flex;
             border-bottom: 1px solid var(--colab-border);
-            min-height: 200px;
+            padding: 1.5rem 2rem;
             transition: background 0.2s ease;
         }
 
@@ -116,15 +115,21 @@
             background: #fafafa;
         }
 
-        /* Left side - Code Cell */
+        /* Code Cell - Full Width */
         .cell-code {
-            flex: 1;
             background: var(--colab-cell-bg);
-            border-right: 1px solid var(--colab-border);
-            position: relative;
+            border-radius: 8px;
             padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cell-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .cell-number {
@@ -152,20 +157,43 @@
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.9rem;
-            margin-bottom: 1rem;
             box-shadow: 0 2px 4px rgba(255,223,0,0.3);
+        }
+
+        .explain-btn {
+            background: linear-gradient(135deg, var(--brand-teal), #006666);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,64,64,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .explain-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,64,64,0.4);
+        }
+
+        .explain-btn:active {
+            transform: translateY(0);
         }
 
         .code-block {
             background: white;
             border: 1px solid var(--colab-border);
             border-radius: 4px;
-            padding: 1rem;
+            padding: 1.5rem;
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 1rem;
+            line-height: 1.6;
             overflow-x: auto;
-            flex: 1;
         }
 
         .code-line {
@@ -197,9 +225,78 @@
 
         /* Right side - Explanation */
         .cell-explanation {
-            flex: 1;
-            padding: 1.5rem 2rem;
+            display: none; /* Hidden by default, shown in modal */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
             background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+            margin: 1rem;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f5f5f5;
+            color: var(--text-dark);
         }
 
         .explanation-title {
@@ -356,13 +453,14 @@
 
         /* Responsive */
         @media (max-width: 968px) {
-            .cell {
+            .cell-header {
                 flex-direction: column;
+                align-items: flex-start;
             }
 
-            .cell-code {
-                border-right: none;
-                border-bottom: 1px solid var(--colab-border);
+            .explain-btn {
+                width: 100%;
+                justify-content: center;
             }
 
             .notebook-title h1 {
@@ -371,6 +469,11 @@
 
             .feature-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                padding: 1.5rem;
             }
         }
 
@@ -443,7 +546,7 @@
                 </div>
 
                 <p style="font-size: 1.2rem; color: var(--brand-teal); margin-top: 2rem; font-weight: 500;">
-                    Scroll down to start building! Each cell has code on the left and explanations on the right. ⬇️
+                    Scroll down to start building! Click the 💡 Explain button next to each step to learn more. ⬇️
                 </p>
             </div>
         </div>
@@ -451,32 +554,17 @@
         <!-- Cell 1: Install -->
         <div class="cell" id="step-1">
             <div class="cell-code">
-                <span class="step-badge">STEP 1 of 6</span>
+                <div class="cell-header">
+                    <span class="step-badge">STEP 1 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-1')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block">
 <span class="code-comment"># Install OpenAI and Gradio libraries</span>
 <span class="code-keyword">!</span>pip install openai gradio
-                </div>
-            </div>
-            <div class="cell-explanation">
-                <div class="explanation-title">📦 Install Required Libraries</div>
-                <div class="explanation-content">
-                    <p><strong>First things first!</strong> We need to install two powerful Python libraries that will help us build our chatbot.</p>
-                    
-                    <ul class="explanation-list">
-                        <li><strong>openai:</strong> Connects to AI models like Google's Gemini</li>
-                        <li><strong>gradio:</strong> Creates beautiful chat interfaces with just a few lines of code</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>💡 What's happening?</strong><br>
-                        The <code>!pip install</code> command downloads and installs these libraries from the internet. Think of it like downloading apps on your phone – but for Python!
-                    </div>
-
-                    <div class="tip-box">
-                        <strong>✅ After running:</strong><br>
-                        Wait for the installation to complete. You'll see progress messages in the output.
-                    </div>
                 </div>
             </div>
         </div>
@@ -484,29 +572,18 @@
         <!-- Cell 2: Import -->
         <div class="cell" id="step-2">
             <div class="cell-code">
-                <span class="step-badge">STEP 2 of 6</span>
+                <div class="cell-header">
+                    <span class="step-badge">STEP 2 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-2')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block">
 <span class="code-keyword">from</span> <span class="code-variable">openai</span> <span class="code-keyword">import</span> <span class="code-function">OpenAI</span>
 <span class="code-keyword">import</span> <span class="code-variable">gradio</span> <span class="code-keyword">as</span> <span class="code-variable">gr</span>
 <span class="code-keyword">from</span> <span class="code-variable">google.colab</span> <span class="code-keyword">import</span> <span class="code-variable">userdata</span>
-                </div>
-            </div>
-            <div class="cell-explanation">
-                <div class="explanation-title">📚 Import Python Modules</div>
-                <div class="explanation-content">
-                    <p><strong>Now that libraries are installed, let's import them!</strong> Think of importing like opening toolboxes – we're getting ready to use specific tools. 🧰</p>
-                    
-                    <ul class="explanation-list">
-                        <li><strong>OpenAI:</strong> The main class to connect with AI models (including Gemini)</li>
-                        <li><strong>gradio as gr:</strong> Imported with a shorter name "gr" to make coding easier and faster</li>
-                        <li><strong>userdata:</strong> A Google Colab tool to securely access your API keys without exposing them</li>
-                    </ul>
-
-                    <div class="tip-box">
-                        <strong>✨ Pro Tip:</strong><br>
-                        Always import at the top of your notebook! It's like organizing your desk before starting work.
-                    </div>
                 </div>
             </div>
         </div>
@@ -524,34 +601,7 @@
                 </div>
             </div>
             <div class="cell-explanation">
-                <div class="explanation-title">🔗 Connect to Gemini AI</div>
-                <div class="explanation-content">
-                    <p><strong>Time to connect to Google's Gemini AI!</strong> We need to tell our code <em>where</em> to find the AI and <em>how</em> to access it. 🔐</p>
-                    
-                    <ul class="explanation-list">
-                        <li><strong>base_url:</strong> The web address where Gemini AI service lives</li>
-                        <li><strong>api_key:</strong> Your secret key retrieved securely from Colab</li>
-                        <li><strong>client:</strong> Creates a connection to the AI service</li>
-                        <li><strong>model:</strong> Chooses which Gemini version (we use fast "flash-lite")</li>
-                    </ul>
 
-                    <div class="warning-box">
-                        <strong>🔑 Getting Your API Key:</strong><br>
-                        1. Visit <strong>ai.google.dev</strong> to get a free Gemini API key<br>
-                        2. In Colab, click the 🔑 key icon (Secrets)<br>
-                        3. Add a secret named <code>GEMINI_API_KEY</code> with your key<br>
-                        4. Enable notebook access
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cell 4: System Prompt -->
-        <div class="cell" id="step-4">
-            <div class="cell-code">
-                <span class="step-badge">STEP 4 of 6</span>
-                <div class="cell-bracket">[ ]</div>
-                <div class="code-block" style="max-height: 300px; overflow-y: auto;">
 <span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI -
                         Artificial Intelligence Research Institute.
                         Your mission is to **teach AI to beginners** like you're
@@ -574,42 +624,18 @@
                         built at HERE AND NOW AI – Artificial Intelligence Research Institute."**"""</span>
                 </div>
             </div>
-            <div class="cell-explanation">
-                <div class="explanation-title">🎭 Create AI Personality</div>
-                <div class="explanation-content">
-                    <p><strong>This is where the magic happens! 🪄</strong></p>
-                    <p>The <strong>system prompt</strong> is like giving your AI a personality, a job, and instructions on how to behave. We're creating <strong>Caramel AI</strong> – a friendly AI teacher!</p>
-                    
-                    <div class="info-box">
-                        <strong>🎨 Key Personality Traits:</strong>
-                        <ul style="margin-top: 0.5rem;">
-                            <li>Explains like talking to a 10-year-old</li>
-                            <li>Uses short, simple sentences</li>
-                            <li>Always encouraging and friendly</li>
-                            <li>Asks questions to keep users engaged</li>
-                            <li>Builds understanding step by step</li>
-                        </ul>
-                    </div>
-
-                    <div class="tip-box">
-                        <strong>💡 Customize Your AI!</strong><br>
-                        You can change this prompt to make your AI:
-                        <ul style="margin-top: 0.5rem;">
-                            <li>🧑‍🍳 A cooking assistant</li>
-                            <li>📖 A storyteller</li>
-                            <li>💼 A career advisor</li>
-                            <li>🎮 A gaming buddy</li>
-                        </ul>
-                        Just modify the text inside the triple quotes!
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Cell 5: Function -->
         <div class="cell" id="step-5">
             <div class="cell-code">
-                <span class="step-badge">STEP 5 of 6</span>
+                <div class="cell-header">
+                    <span class="step-badge">STEP 5 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-5')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block">
 <span class="code-keyword">def</span> <span class="code-function">get_response</span>(<span class="code-variable">message</span>, <span class="code-variable">history</span>):
@@ -655,7 +681,13 @@
         <!-- Cell 6: UI -->
         <div class="cell" id="step-6">
             <div class="cell-code">
-                <span class="step-badge">STEP 6 of 6</span>
+                <div class="cell-header">
+                    <span class="step-badge">STEP 6 of 6</span>
+                    <button class="explain-btn" onclick="openModal('modal-6')">
+                        <span>💡</span>
+                        <span>Explain</span>
+                    </button>
+                </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block">
 <span class="code-variable">PAGE_TITLE</span> <span class="operator">=</span> <span class="code-string">"Caramel AI from HERE AND NOW AI !"</span>
@@ -683,42 +715,9 @@
 ).<span class="code-function">queue</span>().<span class="code-function">launch</span>(<span class="code-variable">show_error</span>=<span class="code-keyword">True</span>, <span class="code-variable">ssr_mode</span>=<span class="code-keyword">False</span>)
                 </div>
             </div>
-            <div class="cell-explanation">
-                <div class="explanation-title">🎨 Create Beautiful UI</div>
-                <div class="explanation-content">
-                    <p><strong>Final step – bring it all together with a stunning interface! ✨</strong></p>
-                    <p>Gradio makes it super easy to create a professional chat UI with just a few lines.</p>
-                    
-                    <ul class="explanation-list">
-                        <li><strong>PAGE_TITLE:</strong> The main heading of your chatbot app</li>
-                        <li><strong>LOGO_URL:</strong> HERE AND NOW AI logo displayed at top</li>
-                        <li><strong>ASSISTANT_AVATAR_URL:</strong> Caramel AI's profile picture</li>
-                        <li><strong>description_md:</strong> HTML description with logo and tagline</li>
-                        <li><strong>ChatInterface:</strong> Gradio's pre-built chat component</li>
-                        <li><strong>examples:</strong> Suggested questions users can click</li>
-                        <li><strong>.launch():</strong> Opens the interface! 🚀</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <strong>🎨 UI Features:</strong>
-                        <ul style="margin-top: 0.5rem;">
-                            <li>✅ Message input box with auto-resize</li>
-                            <li>✅ Chat history with scrolling</li>
-                            <li>✅ Custom avatar images</li>
-                            <li>✅ Example prompts to get started</li>
-                            <li>✅ Clean, professional design</li>
-                        </ul>
-                    </div>
-
-                    <div class="tip-box">
-                        <strong>🚀 Ready to Launch!</strong><br>
-                        Click the play button (or press Shift+Enter) to run this cell. Your chatbot will open in a new window with a shareable link!
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Conclusion -->
+        <!-- Modal Windows -->
         <div class="conclusion-cell">
             <div class="conclusion-content">
                 <div class="emoji-large">🎉🤖✨</div>
@@ -750,6 +749,210 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Windows -->
+    <!-- Modal 1: Install -->
+    <div id="modal-1" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-1')">&times;</button>
+            <div class="explanation-title">📦 Install Required Libraries</div>
+            <div class="explanation-content">
+                <p><strong>First things first!</strong> We need to install two powerful Python libraries that will help us build our chatbot.</p>
+                
+                <ul class="explanation-list">
+                    <li><strong>openai:</strong> Connects to AI models like Google's Gemini</li>
+                    <li><strong>gradio:</strong> Creates beautiful chat interfaces with just a few lines of code</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 What's happening?</strong><br>
+                    The <code>!pip install</code> command downloads and installs these libraries from the internet. Think of it like downloading apps on your phone – but for Python!
+                </div>
+
+                <div class="tip-box">
+                    <strong>✅ After running:</strong><br>
+                    Wait for the installation to complete. You'll see progress messages in the output.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Import -->
+    <div id="modal-2" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-2')">&times;</button>
+            <div class="explanation-title">📚 Import Python Modules</div>
+            <div class="explanation-content">
+                <p><strong>Now that libraries are installed, let's import them!</strong> Think of importing like opening toolboxes – we're getting ready to use specific tools. 🧰</p>
+                
+                <ul class="explanation-list">
+                    <li><strong>OpenAI:</strong> The main class to connect with AI models (including Gemini)</li>
+                    <li><strong>gradio as gr:</strong> Imported with a shorter name "gr" to make coding easier and faster</li>
+                    <li><strong>userdata:</strong> A Google Colab tool to securely access your API keys without exposing them</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>✨ Pro Tip:</strong><br>
+                    Always import at the top of your notebook! It's like organizing your desk before starting work.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: API Setup -->
+    <div id="modal-3" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-3')">&times;</button>
+            <div class="explanation-title">🔗 Connect to Gemini AI</div>
+            <div class="explanation-content">
+                <p><strong>Time to connect to Google's Gemini AI!</strong> We need to tell our code <em>where</em> to find the AI and <em>how</em> to access it. 🔐</p>
+                
+                <ul class="explanation-list">
+                    <li><strong>base_url:</strong> The web address where Gemini AI service lives</li>
+                    <li><strong>api_key:</strong> Your secret key retrieved securely from Colab</li>
+                    <li><strong>client:</strong> Creates a connection to the AI service</li>
+                    <li><strong>model:</strong> Chooses which Gemini version (we use fast "flash-lite")</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>🔑 Getting Your API Key:</strong><br>
+                    1. Visit <strong>ai.google.dev</strong> to get a free Gemini API key<br>
+                    2. In Colab, click the 🔑 key icon (Secrets)<br>
+                    3. Add a secret named <code>GEMINI_API_KEY</code> with your key<br>
+                    4. Enable notebook access
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: System Prompt -->
+    <div id="modal-4" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-4')">&times;</button>
+            <div class="explanation-title">🎭 Create AI Personality</div>
+            <div class="explanation-content">
+                <p><strong>This is where the magic happens! 🪄</strong></p>
+                <p>The <strong>system prompt</strong> is like giving your AI a personality, a job, and instructions on how to behave. We're creating <strong>Caramel AI</strong> – a friendly AI teacher!</p>
+                
+                <div class="info-box">
+                    <strong>🎨 Key Personality Traits:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Explains like talking to a 10-year-old</li>
+                        <li>Uses short, simple sentences</li>
+                        <li>Always encouraging and friendly</li>
+                        <li>Asks questions to keep users engaged</li>
+                        <li>Builds understanding step by step</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Customize Your AI!</strong><br>
+                    You can change this prompt to make your AI:
+                    <ul style="margin-top: 0.5rem;">
+                        <li>🧑‍🍳 A cooking assistant</li>
+                        <li>📖 A storyteller</li>
+                        <li>💼 A career advisor</li>
+                        <li>🎮 A gaming buddy</li>
+                    </ul>
+                    Just modify the text inside the triple quotes!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5: Function -->
+    <div id="modal-5" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-5')">&times;</button>
+            <div class="explanation-title">🧠 Build the Chat Logic</div>
+            <div class="explanation-content">
+                <p><strong>This function is the brain of your chatbot! 🧠</strong> It handles every message the user sends.</p>
+                
+                <div class="info-box">
+                    <strong>📝 How it works:</strong>
+                    <ol style="margin-top: 0.5rem; line-height: 1.8;">
+                        <li><strong>Start with personality:</strong> Add the system prompt first</li>
+                        <li><strong>Include history:</strong> Remember previous messages in the conversation</li>
+                        <li><strong>Add user message:</strong> Append the new message from the user</li>
+                        <li><strong>Call the AI:</strong> Send everything to Gemini for processing</li>
+                        <li><strong>Return response:</strong> Extract and return the AI's answer</li>
+                        <li><strong>Update history:</strong> Keep track for next time</li>
+                    </ol>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Why history matters:</strong><br>
+                    By including previous messages, the AI can understand context – like "Tell me more about that" or "What did you just say?"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 6: UI -->
+    <div id="modal-6" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('modal-6')">&times;</button>
+            <div class="explanation-title">🎨 Create Beautiful UI</div>
+            <div class="explanation-content">
+                <p><strong>Final step – bring it all together with a stunning interface! ✨</strong></p>
+                <p>Gradio makes it super easy to create a professional chat UI with just a few lines.</p>
+                
+                <ul class="explanation-list">
+                    <li><strong>PAGE_TITLE:</strong> The main heading of your chatbot app</li>
+                    <li><strong>LOGO_URL:</strong> HERE AND NOW AI logo displayed at top</li>
+                    <li><strong>ASSISTANT_AVATAR_URL:</strong> Caramel AI's profile picture</li>
+                    <li><strong>description_md:</strong> HTML description with logo and tagline</li>
+                    <li><strong>ChatInterface:</strong> Gradio's pre-built chat component</li>
+                    <li><strong>examples:</strong> Suggested questions users can click</li>
+                    <li><strong>.launch():</strong> Opens the interface! 🚀</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>🎨 UI Features:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>✅ Message input box with auto-resize</li>
+                        <li>✅ Chat history with scrolling</li>
+                        <li>✅ Custom avatar images</li>
+                        <li>✅ Example prompts to get started</li>
+                        <li>✅ Clean, professional design</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <strong>🚀 Ready to Launch!</strong><br>
+                    Click the play button (or press Shift+Enter) to run this cell. Your chatbot will open in a new window with a shareable link!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
