@@ -510,7 +510,7 @@
 
     <!-- Tools Container -->
     <section class="tools-container">
-        <div class="tools-count">Showing <span id="count">0</span> tools</div>
+        <div class="tools-count">Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span> tools</div>
         <div class="tools-grid" id="toolsGrid">
             <!-- Tools will be dynamically inserted here -->
         </div>
@@ -730,28 +730,26 @@
 
         // Initialize
         let filteredTools = [...aiTools];
-        // Ensure the top counter reflects the actual number immediately
-        (function initCount() {
-            const countEl = document.getElementById('count');
-            if (countEl) countEl.textContent = filteredTools.length;
-        })();
 
         // Render tools
         function renderTools() {
             const grid = document.getElementById('toolsGrid');
             const noResults = document.getElementById('noResults');
-            const count = document.getElementById('count');
+            const visibleCount = document.getElementById('visibleCount');
+            const totalCount = document.getElementById('totalCount');
             
             grid.innerHTML = '';
             
             if (filteredTools.length === 0) {
                 noResults.classList.remove('hidden');
-                count.textContent = '0';
+                visibleCount.textContent = '0';
+                totalCount.textContent = aiTools.length;
                 return;
             }
             
             noResults.classList.add('hidden');
-            count.textContent = filteredTools.length;
+            visibleCount.textContent = filteredTools.length;
+            totalCount.textContent = aiTools.length;
             
             filteredTools.forEach((tool, index) => {
                 const card = document.createElement('div');
