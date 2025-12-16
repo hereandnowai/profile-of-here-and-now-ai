@@ -637,26 +637,7 @@
                 </div>
                 <div class="cell-bracket">[ ]</div>
                 <div class="code-block" style="max-height: 300px; overflow-y: auto;">
-<span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI -
-                        Artificial Intelligence Research Institute.
-                        Your mission is to **teach AI to beginners** like you're
-                        explaining it to a **10-year-old**.
-                        Always be **clear**, **simple**, and **direct**.
-                        Use **short sentences** and **avoid complex words**.
-                        You are **conversational**. Always **ask questions** to involve the user.
-                        After every explanation, ask a small follow-up question to keep
-                        the interaction going. Avoid long paragraphs.
-                        Think of your answers as **one sentence at a time**.
-                        Use examples, analogies, and comparisons to things kids can understand.
-                        Your tone is always: **friendly, encouraging, and curious**.
-                        Your answers should help students, researchers, or professionals
-                        who are just starting with AI.
-                        Always encourage them by saying things like:
-                        "You're doing great!" "Let's learn together!" "That's a smart question!"
-                        Do **not** give long technical explanations.
-                        Instead, **build the understanding step by step.**
-                        You say always that you are **"Caramel AI – AI Teacher,
-                        built at HERE AND NOW AI – Artificial Intelligence Research Institute."**"""</span>
+<span class="code-variable">ai_teacher</span> <span class="operator">=</span> <span class="code-string">"""You are Caramel AI, an AI Teacher at HERE AND NOW AI - Artificial Intelligence Research Institute. Your mission is to **teach AI to beginners** like you're explaining it to a **10-year-old**. Always be **clear**, **simple**, and **direct**. Use **short sentences** and **avoid complex words**. You are **conversational**. Always **ask questions** to involve the user. After every explanation, ask a small follow-up question to keep the interaction going. Avoid long paragraphs. Think of your answers as **one sentence at a time**. Use examples, analogies, and comparisons to things kids can understand. Your tone is always: **friendly, encouraging, and curious**. Your answers should help students, researchers, or professionals who are just starting with AI. Always encourage them by saying things like: "You're doing great!" "Let's learn together!" "That's a smart question!" Do **not** give long technical explanations. Instead, **build the understanding step by step.** You say always that you are **"Caramel AI – AI Teacher, built at HERE AND NOW AI – Artificial Intelligence Research Institute."**"""</span>
                 </div>
             </div>
         </div>
@@ -678,8 +659,8 @@
     <span class="code-variable">messages</span>.<span class="code-function">extend</span>(<span class="code-variable">history</span>)
     <span class="code-variable">messages</span>.<span class="code-function">append</span>({<span class="code-string">"role"</span>:<span class="code-string">"user"</span>, <span class="code-string">"content"</span>:<span class="code-variable">message</span>})
     <span class="code-variable">response</span> <span class="operator">=</span> <span class="code-variable">client</span>.<span class="code-variable">chat</span>.<span class="code-variable">completions</span>.<span class="code-function">create</span>(
-        <span class="code-variable">model</span>=model,
-        <span class="code-variable">messages</span>=messages
+        <span class="code-variable">model</span>=<span class="code-variable">model</span>,
+        <span class="code-variable">messages</span>=<span class="code-variable">messages</span>
     )
     <span class="code-variable">ai_response</span> <span class="operator">=</span> <span class="code-variable">response</span>.<span class="code-variable">choices</span>[<span class="number">0</span>].<span class="code-variable">message</span>.<span class="code-variable">content</span>
     <span class="code-keyword">return</span> <span class="code-variable">ai_response</span>
@@ -703,17 +684,16 @@
 <span class="code-variable">LOGO_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png"</span>
 <span class="code-variable">ASSISTANT_AVATAR_URL</span> <span class="operator">=</span> <span class="code-string">"https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/caramel-face.jpeg"</span>
 
-<span class="code-variable">description_md</span> <span class="operator">=</span> <span class="code-keyword">f</span><span class="code-string">"""&lt;img src='{LOGO_URL}' width='500' style='display: block; margin: auto;'&gt;
-                     &lt;br&gt;Your friendly AI teacher for learning the basics of Artificial Intelligence!"""</span>
+<span class="code-variable">description_md</span> <span class="operator">=</span> <span class="code-keyword">f</span><span class="code-string">"""&lt;img src='{LOGO_URL}' width='500' style='display: block; margin: auto;'&gt; &lt;br&gt;Your friendly AI teacher for learning the basics of Artificial Intelligence!"""</span>
 
 <span class="code-variable">gr</span>.<span class="code-function">ChatInterface</span>(
-    <span class="code-variable">fn</span>=get_response,
-    <span class="code-variable">chatbot</span>=gr.<span class="code-function">Chatbot</span>(
+    <span class="code-variable">fn</span>=<span class="code-variable">get_response</span>,
+    <span class="code-variable">chatbot</span>=<span class="code-variable">gr</span>.<span class="code-function">Chatbot</span>(
         <span class="code-variable">type</span>=<span class="code-string">'messages'</span>,
         <span class="code-variable">avatar_images</span>=[<span class="code-keyword">None</span>, <span class="code-variable">ASSISTANT_AVATAR_URL</span>]
     ),
-    <span class="code-variable">title</span>=PAGE_TITLE,
-    <span class="code-variable">description</span>=description_md,
+    <span class="code-variable">title</span>=<span class="code-variable">PAGE_TITLE</span>,
+    <span class="code-variable">description</span>=<span class="code-variable">description_md</span>,
     <span class="code-variable">examples</span>=[
         <span class="code-string">"What is AI?"</span>,
         <span class="code-string">"What does GPT stand for?"</span>,
