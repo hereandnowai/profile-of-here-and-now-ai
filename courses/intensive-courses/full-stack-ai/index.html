@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack GenAI Program | HERE AND NOW AI</title>
+    
+    <!-- 1. Reveal.js Theme & Core -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme">
+    
+    <!-- 2. Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+
+    <!-- 3. Tailwind CSS (for layout & design) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 4. Animations & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom "AI" Aesthetic Overrides */
+        body { font-family: 'Inter', sans-serif; background-color: #050a14; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: 'Space Grotesk', sans-serif; text-transform: none; }
+        
+        /* Neon Effects */
+        .neon-green { color: #00ff9d; text-shadow: 0 0 10px rgba(0,255,157,0.5); }
+        .neon-blue { color: #00d2ff; text-shadow: 0 0 10px rgba(0,210,255,0.5); }
+        .border-neon { border: 1px solid #00ff9d; box-shadow: 0 0 15px rgba(0,255,157,0.2); }
+        
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        /* Persistent Logo & Branding */
+        #fixed-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            border-right: 3px solid #00ff9d;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #fixed-logo img {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(0,255,157,0.3));
+        }
+        
+        #fixed-program-name {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            color: #00ff9d;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(0,255,157,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,255,157,0.2);
+        }
+
+        /* Coding Typing Simulation Cursor */
+        .cursor { display: inline-block; width: 10px; height: 1em; background-color: #00ff9d; animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Branding -->
+    <div id="fixed-program-name">Full Stack GenAI Program</div>
+    <div id="fixed-logo">
+        <img src="https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/logo-of-here-and-now-ai.png" alt="HERE AND NOW AI Logo">
+        <span>HERE AND NOW AI</span>
+    </div>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- SLIDE 1: INTRO -->
+            <section data-background-gradient="linear-gradient(to bottom, #000000, #0f172a)">
+                <div class="flex flex-col items-center justify-center h-full">
+                    <div class="glass-card mb-5 animate__animated animate__fadeInDown">
+                        <i class="fa-solid fa-brain fa-3x neon-green mb-4"></i>
+                    </div>
+                    <h1 class="text-6xl font-bold text-white mb-2">FULL STACK <span class="neon-blue">GenAI</span></h1>
+                    <h3 class="text-2xl text-gray-400 font-light mb-8">Architect the Future. Build Intelligence.</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 text-left glass-card">
+                        <div class="flex items-center text-sm"><i class="fa-solid fa-check text-green-400 mr-2"></i> Frontend & Backend</div>
+                        <div class="flex items-center text-sm"><i class="fa-solid fa-check text-green-400 mr-2"></i> LLMs & RAG</div>
+                        <div class="flex items-center text-sm"><i class="fa-solid fa-check text-green-400 mr-2"></i> DevOps & Cloud</div>
+                        <div class="flex items-center text-sm"><i class="fa-solid fa-check text-green-400 mr-2"></i> Python & JS</div>
+                    </div>
+                    <div class="mt-8 text-xs text-gray-500">By HERE AND NOW AI – Artificial Intelligence Research Institute</div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: THE PROBLEM -->
+            <section>
+                <h2 class="text-red-400">Why Most Developers Fail?</h2>
+                <div class="flex justify-center items-center mt-10">
+                    <div class="glass-card w-1/2 p-6 text-left">
+                        <p class="mb-4 text-xl"><i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-3"></i> <strong>Tutorial Hell:</strong> Endless watching, zero building.</p>
+                        <p class="mb-4 text-xl"><i class="fa-solid fa-shuffle text-yellow-500 mr-3"></i> <strong>Conflicting Info:</strong> "Learn PHP? No, learn Go? No, learn AI!"</p>
+                        <p class="mb-4 text-xl"><i class="fa-solid fa-ghost text-yellow-500 mr-3"></i> <strong>The AI Gap:</strong> Devs don't know AI. AI Engineers can't deploy apps.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: OUR SOLUTION -->
+            <section>
+                <h2 class="neon-green">The "Active Learner" Protocol</h2>
+                <p class="text-gray-300 italic mb-8">We don't teach syntax. We teach you to architect systems.</p>
+                
+                <div class="flex justify-around items-center mt-5">
+                    <div class="text-center fragment fade-up">
+                        <div class="rounded-full border-neon w-24 h-24 flex items-center justify-center mx-auto mb-4 bg-gray-800">
+                            <i class="fa-solid fa-code fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-lg">1. Build</h4>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 fa-2x"></i>
+                    <div class="text-center fragment fade-up">
+                        <div class="rounded-full border-neon w-24 h-24 flex items-center justify-center mx-auto mb-4 bg-gray-800">
+                            <i class="fa-solid fa-bug fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-lg">2. Break</h4>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 fa-2x"></i>
+                    <div class="text-center fragment fade-up">
+                        <div class="rounded-full border-neon w-24 h-24 flex items-center justify-center mx-auto mb-4 bg-gray-800">
+                            <i class="fa-solid fa-rocket fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-lg">3. Deploy</h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PHASE 1 FOUNDATION -->
+            <section data-background-color="#0f172a">
+                <div class="absolute top-0 left-0 bg-green-500 text-black font-bold px-3 py-1 text-xs">PHASE 1</div>
+                <h2 class="neon-blue">The Face of Intelligence</h2>
+                <h4 class="text-gray-400">Frontend Fundamentals</h4>
+                <div class="grid grid-cols-3 gap-6 mt-10">
+                    <div class="glass-card fragment">
+                        <i class="fa-brands fa-html5 fa-3x text-orange-500 mb-4"></i>
+                        <h3 class="text-xl font-bold">HTML5</h3>
+                        <p class="text-sm text-gray-400">Content Structure & Semantic Web.</p>
+                    </div>
+                    <div class="glass-card fragment">
+                        <i class="fa-brands fa-css3-alt fa-3x text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold">CSS3</h3>
+                        <p class="text-sm text-gray-400">Style, Layouts, Responsive Grids.</p>
+                    </div>
+                    <div class="glass-card fragment">
+                        <i class="fa-brands fa-js fa-3x text-yellow-400 mb-4"></i>
+                        <h3 class="text-xl font-bold">JavaScript</h3>
+                        <p class="text-sm text-gray-400">The Brain of the Browser. Interactivity.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="neon-green mb-4">Practical Project #1</h3>
+                <div class="glass-card max-w-2xl mx-auto border-neon">
+                    <div class="p-4 border-b border-gray-700 flex justify-between">
+                        <span>Portfolio.html</span>
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-left font-mono text-sm text-gray-300">
+                        &lt;h1&gt;Hi, I'm a Future AI Engineer&lt;/h1&gt;<br>
+                        &lt;button&gt;Download Resume&lt;/button&gt;<br><br>
+                        <span class="text-green-400">// Project Goal: Ship a personal website to the live internet on Day 15.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PHASE 2 BACKEND -->
+            <section data-background-color="#1e1b4b">
+                <div class="absolute top-0 left-0 bg-blue-500 text-white font-bold px-3 py-1 text-xs">PHASE 2</div>
+                <h2>The Application Stack</h2>
+                <ul class="text-left space-y-4 mt-8 mx-auto w-3/4">
+                    <li class="fragment"><span class="neon-blue font-bold">1. Git & GitHub:</span> Version Control. The industry standard "Save Button."</li>
+                    <li class="fragment"><span class="neon-blue font-bold">2. Network Requests:</span> Fetching Data, Async/Await logic.</li>
+                    <li class="fragment"><span class="neon-blue font-bold">3. Backend Logic:</span> <span class="text-yellow-300">Python (Django)</span> + <span class="text-green-300">Node.js</span>.</li>
+                    <li class="fragment"><span class="neon-blue font-bold">4. Databases:</span> Remembering the user. SQL (Relational) vs NoSQL (MongoDB).</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3 class="neon-green">Security Fundamentals</h3>
+                <div class="grid grid-cols-2 gap-8 mt-10">
+                    <div class="glass-card text-left">
+                        <h4 class="text-red-400 mb-2"><i class="fa-solid fa-shield-virus"></i> Threats</h4>
+                        <ul class="text-sm list-disc pl-5">
+                            <li>SQL Injection</li>
+                            <li>XSS Attacks</li>
+                            <li>Data Leaks</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card text-left">
+                        <h4 class="text-green-400 mb-2"><i class="fa-solid fa-lock"></i> Defenses</h4>
+                        <ul class="text-sm list-disc pl-5">
+                            <li>JWT Authentication</li>
+                            <li>Encryption/Hashing</li>
+                            <li>HTTPS & Cors</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PHASE 3 FRAMEWORKS -->
+            <section data-background-color="#312e81">
+                <div class="absolute top-0 left-0 bg-purple-500 text-white font-bold px-3 py-1 text-xs">PHASE 3</div>
+                <h2>Modern Architecture</h2>
+                <p class="text-gray-300">Stop writing Spaghetti Code. Start using Frameworks.</p>
+                <div class="mt-8 flex justify-center items-center gap-10">
+                    <div class="text-center fragment">
+                        <i class="fa-brands fa-react fa-5x text-blue-400 animate-spin-slow" style="animation-duration: 10s;"></i>
+                        <h4 class="mt-4">React.js</h4>
+                    </div>
+                    <div class="text-4xl text-gray-500">+</div>
+                    <div class="text-center fragment">
+                        <i class="fa-brands fa-js fa-5x text-blue-600 rounded"></i>
+                        <h4 class="mt-4">TypeScript</h4>
+                    </div>
+                    <div class="text-4xl text-gray-500">=</div>
+                    <div class="text-center fragment">
+                        <span class="text-5xl font-bold text-white block bg-black rounded p-4 border-neon">N</span>
+                        <h4 class="mt-4">Next.js</h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PHASE 4 GENERATIVE AI (THE CORE) -->
+            <section data-background-gradient="linear-gradient(to right, #000000, #052e16)">
+                <div class="glass-card border-neon">
+                    <h1 class="text-5xl font-bold neon-green tracking-widest">GEN AI</h1>
+                    <p class="text-xl mt-4">The Crown Jewel of the Curriculum</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>How we teach AI Integration</h3>
+                <div class="r-stack mt-8">
+                    <div class="fragment fade-in-then-out glass-card p-10 border-neon w-full">
+                        <h4 class="text-yellow-400">Step 1: LLM Fundamentals</h4>
+                        <p>Understanding Large Language Models (OpenAI, Llama, Mistral).</p>
+                    </div>
+                    <div class="fragment fade-in-then-out glass-card p-10 border-neon w-full">
+                        <h4 class="text-blue-400">Step 2: Vector Databases</h4>
+                        <p>Making AI "Remember". Storing embeddings in Pinecone/Weaviate.</p>
+                    </div>
+                    <div class="fragment fade-in-then-out glass-card p-10 border-neon w-full">
+                        <h4 class="text-green-400">Step 3: RAG</h4>
+                        <p>Retrieval Augmented Generation. Build "Chat with Your PDF" Apps.</p>
+                    </div>
+                    <div class="fragment fade-in glass-card p-10 border-neon w-full">
+                        <h4 class="text-purple-400">Step 4: Agents</h4>
+                        <p>Using <strong>LangChain</strong> to build AI that takes actions (Browse web, calculate, execute code).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CAPSTONE PROJECTS -->
+            <section>
+                <h2>Course Capstone Projects</h2>
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div class="glass-card text-left hover:border-green-400 transition-all cursor-pointer">
+                        <h4 class="text-green-400 text-lg">1. Full Stack SaaS</h4>
+                        <p class="text-xs text-gray-300">A complete Subscription based AI tool with Payment Gateway integration.</p>
+                    </div>
+                    <div class="glass-card text-left hover:border-green-400 transition-all cursor-pointer">
+                        <h4 class="text-blue-400 text-lg">2. RAG Document Bot</h4>
+                        <p class="text-xs text-gray-300">Upload business docs and chat with them accurately.</p>
+                    </div>
+                    <div class="glass-card text-left hover:border-green-400 transition-all cursor-pointer">
+                        <h4 class="text-purple-400 text-lg">3. AI Agent Workflow</h4>
+                        <p class="text-xs text-gray-300">An autonomous agent that automates email or code writing tasks.</p>
+                    </div>
+                    <div class="glass-card text-left hover:border-green-400 transition-all cursor-pointer">
+                        <h4 class="text-orange-400 text-lg">4. Vision AI App</h4>
+                        <p class="text-xs text-gray-300">Using camera input to classify objects in real-time via React.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHASE 5 DEPLOYMENT -->
+            <section data-background-color="#374151">
+                <h2>Production & Deployment</h2>
+                <p class="mb-6">"It works on my machine" <span class="text-red-500">is not acceptable.</span></p>
+                <div class="flex justify-center gap-8">
+                    <div class="text-center fragment">
+                        <i class="fa-brands fa-docker fa-3x text-blue-400"></i>
+                        <p class="text-sm mt-2">Dockerization</p>
+                    </div>
+                    <div class="text-center fragment">
+                        <i class="fa-brands fa-aws fa-3x text-orange-400"></i>
+                        <p class="text-sm mt-2">AWS EC2 Deployment</p>
+                    </div>
+                    <div class="text-center fragment">
+                        <i class="fa-solid fa-infinity fa-3x text-green-400"></i>
+                        <p class="text-sm mt-2">CI/CD Pipelines</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 28: DETAILS -->
+            <section>
+                <h2>Program Logistics</h2>
+                <div class="flex flex-col gap-4 mt-6">
+                    <div class="flex items-center justify-between glass-card px-6 py-4">
+                        <div class="text-left">
+                            <h4 class="font-bold text-white">Weekday Online</h4>
+                            <p class="text-xs text-gray-400">Working Professionals</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-neon-green">6:00 AM - 8:00 AM</p>
+                            <p class="text-xs text-gray-400">6 Months</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between glass-card px-6 py-4">
+                        <div class="text-left">
+                            <h4 class="font-bold text-white">Weekday Offline</h4>
+                            <p class="text-xs text-gray-400">Intensive (Chennai)</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-neon-green">10:00 AM - 1:00 PM</p>
+                            <p class="text-xs text-gray-400">4 Months</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between glass-card px-6 py-4">
+                        <div class="text-left">
+                            <h4 class="font-bold text-white">Weekend Hybrid</h4>
+                            <p class="text-xs text-gray-400">Flexible Mode</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-neon-green">Sat & Sun (3 hrs)</p>
+                            <p class="text-xs text-gray-400">7 Months</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 30: PRICING -->
+            <section data-background-color="#000000">
+                <div class="flex flex-col items-center">
+                    <h2 class="text-4xl mb-2 text-white">INVEST IN YOUR FUTURE</h2>
+                    <div class="w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent my-6"></div>
+                    
+                    <div class="border-neon p-10 bg-gray-900 rounded-lg shadow-2xl animate__animated animate__pulse animate__infinite" style="animation-duration: 2s;">
+                        <p class="text-gray-400 text-sm mb-2">Program Fee</p>
+                        <h1 class="text-6xl font-bold text-white mb-2">₹97,925</h1>
+                        <p class="text-xs text-gray-500 mb-6">+ 18% GST</p>
+                        <a href="#" class="px-8 py-3 bg-green-500 text-black font-bold rounded hover:bg-white transition-all transform hover:scale-105 inline-block">
+                            ENROLL NOW <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-10 mt-10 w-3/4">
+                        <div class="text-center">
+                            <i class="fa-solid fa-envelope text-blue-400 mb-2"></i>
+                            <p class="text-sm">info@hereandnowai.com</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fa-solid fa-phone text-blue-400 mb-2"></i>
+                            <p class="text-sm">+91 996 296 1000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="https://wa.me/919962961000" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-full transition-all transform hover:scale-105">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span>Chat on WhatsApp</span>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-8 text-xs text-gray-600">HERE AND NOW AI – No.648, P.H.Road, Chennai 600 029</div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- REVEAL.JS SCRIPT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+    
+    <script>
+        // Initialize Reveal.js with Cool Transition effects
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            transition: 'convex', // Convex, Zoom, Fade, Slide
+            backgroundTransition: 'zoom',
+            autoAnimateEasing: 'ease-out',
+            autoAnimateDuration: 0.8,
+            plugins: [ RevealHighlight ]
+        });
+    </script>
+</body>
+</html>
