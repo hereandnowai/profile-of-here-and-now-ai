@@ -411,18 +411,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
     
     <script>
-        // Initialize Reveal.js with Cool Transition effects
-        Reveal.initialize({
-            controls: true,
-            progress: true,
-            center: true,
-            hash: true,
-            transition: 'convex', // Convex, Zoom, Fade, Slide
-            backgroundTransition: 'zoom',
-            autoAnimateEasing: 'ease-out',
-            autoAnimateDuration: 0.8,
-            plugins: [ RevealHighlight ]
-        });
+        // Initialize Reveal.js with safe plugin loading and explicit navigation
+        (function() {
+            const plugins = [];
+            if (typeof RevealHighlight !== 'undefined') plugins.push(RevealHighlight);
+
+            // Enable keyboard and touch interactions explicitly
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                center: true,
+                hash: true,
+                transition: 'convex', // Convex, Zoom, Fade, Slide
+                backgroundTransition: 'zoom',
+                autoAnimateEasing: 'ease-out',
+                autoAnimateDuration: 0.8,
+                keyboard: true,
+                touch: true,
+                plugins: plugins
+            });
+
+            // Fallback: if initialization failed, log to console for debugging
+            window.addEventListener('error', (e) => {
+                console.warn('Reveal initialization error:', e.message || e);
+            });
+        })();
     </script>
 </body>
 </html>
